@@ -13,12 +13,13 @@ using cinder::app::RendererGl;
 namespace myapp {
 
 const int kSamples = 8;
-const int kWidth = 800;
-const int kHeight = 800;
+const int kWidth = 2560;
+const int kHeight = 1440;
 
 void SetUp(App::Settings* settings) {
   settings->setWindowSize(kWidth, kHeight);
-  settings->setTitle("My CS 126 Application");
+  settings->setResizable(false);
+  settings->setTitle("Happy Birds");
 }
 
 }  // namespace myapp
