@@ -7,6 +7,9 @@
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
+#include <cinder/audio/Voice.h>
+
+using namespace ci::audio;
 
 namespace myapp {
 
@@ -21,6 +24,7 @@ class MyApp : public cinder::app::App {
  private:
   void DrawBackground();
   ci::gl::Texture2dRef bg_texture_;
+  VoiceRef background_music_;
 };
 
 }  // namespace myapp

@@ -3,11 +3,12 @@
 #include "my_app.h"
 
 #include <cinder/app/App.h>
-#include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
-#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include <cinder/audio/Voice.h>
+
+using namespace ci::audio;
 
 namespace myapp {
 
@@ -16,13 +17,23 @@ using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
 
+const char kDefaultBGM[] = "game-bgm.mp3";
 const char kDefaultBackground[] = "game-background.jpg";
 
 MyApp::MyApp() { }
 
-void MyApp::setup() { }
+void MyApp::setup() {
+  ci::audio::SourceFileRef bgm_file = ci::audio::load
+          (ci::app::loadAsset(kDefaultBGM));
+  background_music_ = ci::audio::Voice::create(bgm_file);
+  background_music_->start();
+}
 
-void MyApp::update() { }
+void MyApp::update() {
+  if (!background_music_->isPlaying()) {
+      background_music_->start();
+  }
+}
 
 void MyApp::draw() {
   cinder::gl::clear();
