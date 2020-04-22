@@ -20,6 +20,7 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
+  void mouseMove(cinder::app::MouseEvent) override;
 
  private:
   void DrawBackground();
@@ -30,6 +31,10 @@ class MyApp : public cinder::app::App {
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
   bool isLevelComplete_;
+  float bird_x_;
+  float bird_y_;
+  float portal_x_;
+  float portal_y_;
 };
 
 }  // namespace myapp
