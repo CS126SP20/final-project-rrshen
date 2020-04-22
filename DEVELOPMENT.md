@@ -8,4 +8,7 @@
 
  - **4/21/20** Created an image for a game portal.
  Added all game images and music.
-
+ Linked Box2D and Choreograph to the project.
+ 
+ - **4/22/20** Randomized the portal location. 
+ Working on using Choreograph and Box2D.
