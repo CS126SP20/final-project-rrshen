@@ -7,6 +7,7 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
 #include <cinder/audio/Voice.h>
+//#include <Box2D/Collision/b2BroadPhase.h>
 
 using namespace ci::audio;
 
@@ -57,7 +58,7 @@ void MyApp::DrawBackground() {
 void MyApp::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create(
           loadImage(loadAsset(kDefaultBird)));
-  cinder::gl::draw(bird_texture_);
+  cinder::gl::draw(bird_texture_); //{75, 250, 125, 300}
 }
 
 void MyApp::DrawPortal() {
