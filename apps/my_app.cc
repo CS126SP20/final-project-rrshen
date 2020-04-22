@@ -21,9 +21,9 @@ const char kDefaultBird[] = "bird.png";
 const char kDefaultBGM[] = "game-bgm.mp3";
 const char kDefaultBackground[] = "game-background.jpg";
 const char kDefaultPortal[] = "portal.png";
-const char kDefaultBox[] = "box.png";
 
-MyApp::MyApp() { }
+MyApp::MyApp()
+    : isLevelComplete_{false} {}
 
 void MyApp::setup() {
   ci::audio::SourceFileRef bgm_file = ci::audio::load
@@ -42,9 +42,8 @@ void MyApp::draw() {
   cinder::gl::clear();
   ci::gl::color(Color::white());
   DrawBackground();
-  DrawBird();
-  DrawBox();
   DrawPortal();
+  DrawBird();
 }
 
 void MyApp::keyDown(KeyEvent event) { }
@@ -59,12 +58,6 @@ void MyApp::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create(
           loadImage(loadAsset(kDefaultBird)));
   cinder::gl::draw(bird_texture_);
-}
-
-void MyApp::DrawBox() {
-  box_texture_ = ci::gl::Texture2d::create(
-          loadImage(loadAsset(kDefaultBox)));
-  cinder::gl::draw(box_texture_);
 }
 
 void MyApp::DrawPortal() {

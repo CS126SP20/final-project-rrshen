@@ -24,12 +24,10 @@ class MyApp : public cinder::app::App {
  private:
   void DrawBackground();
   void DrawBird();
-  void DrawBox();
   void DrawPortal();
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
-  ci::gl::Texture2dRef box_texture_;
   VoiceRef background_music_;
   bool isLevelComplete_;
 };
