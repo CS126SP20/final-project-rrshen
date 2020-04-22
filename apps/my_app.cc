@@ -17,8 +17,11 @@ using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
 
+const char kDefaultBird[] = "bird.png";
 const char kDefaultBGM[] = "game-bgm.mp3";
 const char kDefaultBackground[] = "game-background.jpg";
+const char kDefaultPortal[] = "portal.png";
+const char kDefaultBox[] = "box.png";
 
 MyApp::MyApp() { }
 
@@ -37,17 +40,37 @@ void MyApp::update() {
 
 void MyApp::draw() {
   cinder::gl::clear();
+  ci::gl::color(Color::white());
   DrawBackground();
+  DrawBird();
+  DrawBox();
+  DrawPortal();
 }
 
 void MyApp::keyDown(KeyEvent event) { }
 
 void MyApp::DrawBackground() {
-  cinder::gl::clear(Color(0,0,0));
-  ci::gl::color(Color::white());
   bg_texture_ = ci::gl::Texture2d::create(
         loadImage(loadAsset(kDefaultBackground)));
-  cinder::gl::draw(bg_texture_);
+  cinder::gl::draw(bg_texture_, getWindowBounds());
+}
+
+void MyApp::DrawBird() {
+  bird_texture_ = ci::gl::Texture2d::create(
+          loadImage(loadAsset(kDefaultBird)));
+  cinder::gl::draw(bird_texture_);
+}
+
+void MyApp::DrawBox() {
+  box_texture_ = ci::gl::Texture2d::create(
+          loadImage(loadAsset(kDefaultBox)));
+  cinder::gl::draw(box_texture_);
+}
+
+void MyApp::DrawPortal() {
+  portal_texture_ = ci::gl::Texture2d::create(
+          loadImage(loadAsset(kDefaultPortal)));
+  cinder::gl::draw(portal_texture_);
 }
 
 }  // namespace myapp

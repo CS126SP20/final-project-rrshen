@@ -7,6 +7,5 @@
  Emailed code mod about errors.
 
  - **4/21/20** Created an image for a game portal.
- Added game images to GitHub.
- The background image now displays when run.
+ Added all game images and music.
 
