@@ -8,8 +8,7 @@
 #include "cinder/gl/gl.h"
 #include <cinder/audio/Voice.h>
 #include "cinder/Rand.h"
-#include <Box2D/Common/b2BlockAllocator.h>
-#include <limits>
+#include <choreograph/Choreograph.h>
 
 using namespace ci::audio;
 
@@ -38,8 +37,8 @@ const float kDefaultPortalHeight = 305;
 
 MyApp::MyApp()
     : isLevelComplete_{false},
-    bird_x_{kBeginningBirdX},
-    bird_y_{kBeginningBirdY} {}
+    bird_pos_{kBeginningBirdX, kBeginningBirdY},
+    mouse_events_{0} {}
 
 void MyApp::setup() {
   ci::audio::SourceFileRef bgm_file = ci::audio::load
@@ -48,88 +47,51 @@ void MyApp::setup() {
   background_music_->start();
 
   ci::Rand::randomize();
-  portal_x_ = ci::Rand::randFloat(kBeginningBirdX, 2560);
+  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
   portal_y_ = ci::Rand::randFloat(0, 1000);
 
-  /*
-  float w = (float) getWindowWidth();
-  float h = (float) getWindowHeight();
-  curve_points_ = {
-    ci::vec2( w * 0.08f, h * 0.86f ),
-    ci::vec2( w * 0.08f, h * 0.14f ),
-    ci::vec2( w * 0.92f, h * 0.14f ),
-    ci::vec2( w * 0.92f, h * 0.86f )
-  };
-
-  const float duration = 1.5f;
-
-  // Ramp from anchor point to control point.
-  auto ramp_a = makeRamp(curve_points_[0], curve_points_[1], duration );
-  // Ramp from control point to anchor point.
-  auto ramp_b = makeRamp( curve_points_[2], curve_points_[3], duration );
-
-  // Lerp between control ramps.
-  auto bezier_point = makeBlend<ci::vec2>( ramp_a, ramp_b, 0.0f );
-
-  timeline().setDefaultRemoveOnFinish( false );
-
-  auto group = std::make_shared<ch::Timeline>();
-  group->setDefaultRemoveOnFinish( false );
-  group->setRemoveOnFinish( false );
-
-  // Animate our control points along their respective ramps.
-  group->apply<ci::vec2>( &_control_a, ramp_a );
-  group->apply<ci::vec2>( &_control_b, ramp_b );
-
-  // Animate the mix of the bezier point from a to b.
-  group->apply<float>( bezier_point->getMixOutput(), makeRamp( 0.0f, 1.0f, duration ) );
-
-  // Apply the bezier_point animation to our curve point variable.
-  group->apply<ci::vec2>( &_curve_point, bezier_point )
-    .startFn( [this] {
-        _segments.clear();
-        _segments.push_back( _curve_points[0] );
-    } )
-    .updateFn( [this] {
-        _segments.push_back( _curve_point );
-    } );
-
-  // When all our animations finish, cue the group to restart after a delay.
-  group->setFinishFn( [this, group] () {
-    timeline()
-            .cue( [group] {
-                group->resetTime();
-            }, 0.5f )
-            .removeOnFinish( true );
-  } );
-
-  // Move our grouping timeline onto our main timeline.
-  // This will update our group as the main timeline progresses.
-  timeline().addShared( group );
-
-  // place things at initial timelined values.
-  timeline().jumpTo( 0 ); */
+  //bird_ = bird_pos_;
+  /*target_ = {1000,100};
+  timeline_.apply(&bird_)
+  .then<ch::Hold>(bird_pos_, 1.0)
+  .then<ch::RampTo>( target_, 3.0 );*/
 }
 
 void MyApp::update() {
   if (!background_music_->isPlaying()) {
       background_music_->start();
   }
+  //timeline_.step( 1.0 / 60.0 );
 }
 
 void MyApp::draw() {
   cinder::gl::clear();
   ci::gl::color(Color::white());
+
   DrawBackground();
   DrawPortal();
   DrawBird();
 }
 
-void MyApp::keyDown(KeyEvent event) { }
+void MyApp::keyDown(KeyEvent event) {
+}
 
 void MyApp::mouseMove(cinder::app::MouseEvent event) {
-    size_t x = event.getX();
-    size_t y = event.getY();
+    if (mouse_events_ < 1) {
+        target_ = {event.getX(), event.getY()};
+        auto sequence = ch::Sequence<ci::vec2>(bird_.value())
+                .then<ch::Hold>(bird_pos_, 1.0)
+                .then<ch::RampTo>(target_, 3.0);
+        auto current_time = std::chrono::system_clock::now();
+        auto duration_in_seconds = std::chrono::duration<double>(current_time.time_since_epoch());
+        double num_seconds = duration_in_seconds.count();
+        bird_pos_ = sequence.getValue(num_seconds);
+    }
+    mouse_events_++;
+    /*
+    timeline_.apply(&bird_)
+        .then<ch::Hold>(bird_pos_, 1.0)
+            .then<ch::RampTo>( target_, 3.0 ); */
 }
 
 void MyApp::DrawBackground() {
@@ -142,19 +104,14 @@ void MyApp::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create(
           loadImage(loadAsset(kDefaultBird)));
   cinder::gl::draw(bird_texture_, {
-      kBeginningBirdX, kBeginningBirdY, kBeginningBirdX +
-      kDefaultBirdWidth, kBeginningBirdY + kDefaultBirdHeight});
+      bird_pos_[0], bird_pos_[1], bird_pos_[0] +
+      kDefaultBirdWidth, bird_pos_[1] + kDefaultBirdHeight});
 }
 
 void MyApp::DrawPortal() {
   portal_texture_ = ci::gl::Texture2d::create(
           loadImage(loadAsset(kDefaultPortal)));
 
-  /*
-   * cinder::gl::draw(portal_texture_, {
-      2000, 800, 2000 + // Hardcoded ahora for testing
-      kDefaultPortalWidth, 800 + kDefaultPortalHeight});
-   */
   cinder::gl::draw(portal_texture_, {
       portal_x_, portal_y_, portal_x_ +
       kDefaultPortalWidth, portal_y_ + kDefaultPortalHeight});

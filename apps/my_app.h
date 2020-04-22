@@ -8,6 +8,7 @@
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 #include <cinder/audio/Voice.h>
+#include <choreograph/Choreograph.h>
 
 using namespace ci::audio;
 
@@ -33,23 +34,14 @@ class MyApp : public cinder::app::App {
   VoiceRef background_music_;
   bool isLevelComplete_;
 
-  float bird_x_;
-  float bird_y_;
+  ci::vec2 bird_pos_;
+  ci::vec2 target_;
   float portal_x_;
   float portal_y_;
+  size_t mouse_events_;
 
-  /*
-  struct Point {
-    ch::Output<ci::vec2>  _position;
-    ci::Color             _color;
-  };
-
-  std::vector<ci::vec2> _segments;
-  std::array<ci::vec2, 4> curve_points_;
-
-  ch::Output<ci::vec2>  _control_a;
-  ch::Output<ci::vec2>  _control_b;
-  ch::Output<ci::vec2>  _curve_point; */
+  ch::Output<ci::vec2> bird_ = bird_pos_;
+  ch::Timeline timeline_;
 };
 
 }  // namespace myapp
