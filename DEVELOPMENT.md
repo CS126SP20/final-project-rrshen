@@ -11,4 +11,6 @@
  Linked Box2D and Choreograph to the project.
  
  - **4/22/20** Randomized the portal location. 
- Implemented bird movement in a sine wave.
+ Implemented bird movement in an arc.
+ TO DO: Un-magic the numbers.
+ Start a new level when the portal is touched.

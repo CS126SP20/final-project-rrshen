@@ -37,7 +37,7 @@ const float kDefaultPortalHeight = 305;
 
 MyApp::MyApp()
     : isLevelComplete_{false},
-    mouse_events_{0} {}
+      mouse_event_count_{0} {}
 
 void MyApp::setup() {
   ci::audio::SourceFileRef bgm_file = ci::audio::load
@@ -73,31 +73,28 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
-    auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
-            [] ( ch::Time t, ch::Time duration ) {
-        return ci::vec2( 0, - 10 * sin
-        (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
-    } );
+    if (mouse_event_count_ < 1) {
+        // Creates a procedure that bounces half a sine wave.
+        auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
+                [] ( ch::Time t, ch::Time duration ) {
+            return ci::vec2( 0, - 10 * sin
+            (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
+        } );
 
-    // Create a ramp phrase that moves from left-to-right.
-    auto slide = ch::makeRamp(ci::vec2(0,0),
-            ci::vec2(event.getX() - bird_.value()[0],
-                    event.getY()- bird_.value()[1]), 0.25f, ch::EaseInOutCubic() );
+        // Creates a ramp phase that moves from  the bird's
+        // current location to the mouse click location.
+        auto slide = ch::makeRamp(ci::vec2(0,0),
+                ci::vec2(event.getX() - bird_.value()[0],event.getY()
+                - bird_.value()[1]), 0.25f, ch::EaseInOutCubic());
 
-    // Combine the slide and bounce phrases using an AccumulatePhrase.
-    const std::shared_ptr<choreograph::Phrase<glm::vec2>>
-            bounceAndSlide = ch::makeAccumulator<ci::vec2>( ci::vec2
-                    (bird_.value()[0], bird_.value()[1] ), bounce, slide);
+        // Combines the phrases using an AccumulatePhrase.
+        const std::shared_ptr<choreograph::Phrase<glm::vec2>>
+                bounceAndSlide = ch::makeAccumulator<ci::vec2>(ci::vec2
+                        (bird_.value()[0], bird_.value()[1]), bounce, slide);
 
-    timeline_.apply(&bird_, bounceAndSlide);
-
-    //if (mouse_events_ < 1) {
-        //target_ = {event.getX(), event.getY()};
-        //timeline_.apply(&bird_)
-                //.then<ch::RampTo>(target_, 0.1);
-    //}
-    mouse_events_++;
-
+        timeline_.apply(&bird_, bounceAndSlide);
+    }
+    mouse_event_count_++;
 }
 
 void MyApp::DrawBackground() {

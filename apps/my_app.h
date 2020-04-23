@@ -21,7 +21,6 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
-  //void mouseMove(cinder::app::MouseEvent) override;
   void mouseDown(cinder::app::MouseEvent event) override;
 
  private:
@@ -34,14 +33,10 @@ class MyApp : public cinder::app::App {
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
   bool isLevelComplete_;
-  bool isFalling_;
-  //std::chrono::milliseconds fall_start_time_;
 
-  ci::vec2 target_;
   float portal_x_;
   float portal_y_;
-  size_t mouse_events_;
-
+  size_t mouse_event_count_;
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
 };
