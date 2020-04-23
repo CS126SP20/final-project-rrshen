@@ -61,7 +61,7 @@ void MyApp::update() {
   if (!background_music_->isPlaying()) {
       background_music_->start();
   }
-  //timeline_.step( 1.0 / 60.0 );
+  timeline_.step( 1.0 );
 }
 
 void MyApp::draw() {
@@ -76,22 +76,21 @@ void MyApp::draw() {
 void MyApp::keyDown(KeyEvent event) {
 }
 
-void MyApp::mouseMove(cinder::app::MouseEvent event) {
+void MyApp::mouseDown(cinder::app::MouseEvent event) {
     if (mouse_events_ < 1) {
         target_ = {event.getX(), event.getY()};
-        auto sequence = ch::Sequence<ci::vec2>(bird_.value())
+        timeline_.apply(&bird_)
+                .then<ch::RampTo>(target_, 10.0);
+        /* auto sequence = ch::Sequence<ci::vec2>(bird_.value())
                 .then<ch::Hold>(bird_pos_, 1.0)
                 .then<ch::RampTo>(target_, 3.0);
         auto current_time = std::chrono::system_clock::now();
         auto duration_in_seconds = std::chrono::duration<double>(current_time.time_since_epoch());
         double num_seconds = duration_in_seconds.count();
-        bird_pos_ = sequence.getValue(num_seconds);
+        bird_pos_ = sequence.getValue(num_seconds); */
     }
     mouse_events_++;
-    /*
-    timeline_.apply(&bird_)
-        .then<ch::Hold>(bird_pos_, 1.0)
-            .then<ch::RampTo>( target_, 3.0 ); */
+
 }
 
 void MyApp::DrawBackground() {
@@ -104,8 +103,8 @@ void MyApp::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create(
           loadImage(loadAsset(kDefaultBird)));
   cinder::gl::draw(bird_texture_, {
-      bird_pos_[0], bird_pos_[1], bird_pos_[0] +
-      kDefaultBirdWidth, bird_pos_[1] + kDefaultBirdHeight});
+      bird_.value()[0], bird_.value()[1], bird_.value()[0] +
+      kDefaultBirdWidth, bird_.value()[1] + kDefaultBirdHeight});
 }
 
 void MyApp::DrawPortal() {
