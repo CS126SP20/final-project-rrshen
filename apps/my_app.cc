@@ -73,16 +73,16 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
-    auto bounce = ch::makeProcedure<ci::vec2>( 2.0,
+    auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
             [] ( ch::Time t, ch::Time duration ) {
-        return ci::vec2( 0, - sin
-        (ch::easeInOutQuad((float) t) * 6 * M_PI ) * 100.0f);
+        return ci::vec2( 0, - 10 * sin
+        (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
     } );
 
     // Create a ramp phrase that moves from left-to-right.
     auto slide = ch::makeRamp(ci::vec2(0,0),
             ci::vec2(event.getX() - bird_.value()[0],
-                    event.getY()- bird_.value()[1]), 2.0f, ch::EaseInOutCubic() );
+                    event.getY()- bird_.value()[1]), 0.25f, ch::EaseInOutCubic() );
 
     // Combine the slide and bounce phrases using an AccumulatePhrase.
     const std::shared_ptr<choreograph::Phrase<glm::vec2>>

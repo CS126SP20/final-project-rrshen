@@ -11,5 +11,4 @@
  Linked Box2D and Choreograph to the project.
  
  - **4/22/20** Randomized the portal location. 
- Working on using Choreograph and Box2D.
- Got Sequence to work, but rather terribly.
+ Implemented bird movement in a sine wave.
