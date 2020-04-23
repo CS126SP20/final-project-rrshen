@@ -37,7 +37,6 @@ const float kDefaultPortalHeight = 305;
 
 MyApp::MyApp()
     : isLevelComplete_{false},
-    bird_pos_{kBeginningBirdX, kBeginningBirdY},
     mouse_events_{0} {}
 
 void MyApp::setup() {
@@ -45,23 +44,20 @@ void MyApp::setup() {
           (ci::app::loadAsset(kDefaultBGM));
   background_music_ = ci::audio::Voice::create(bgm_file);
   background_music_->start();
+  background_music_->setVolume(0.5);
 
   ci::Rand::randomize();
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
   portal_y_ = ci::Rand::randFloat(0, 1000);
 
-  //bird_ = bird_pos_;
-  /*target_ = {1000,100};
-  timeline_.apply(&bird_)
-  .then<ch::Hold>(bird_pos_, 1.0)
-  .then<ch::RampTo>( target_, 3.0 );*/
+  bird_ = {kBeginningBirdX, kBeginningBirdY};
 }
 
 void MyApp::update() {
   if (!background_music_->isPlaying()) {
       background_music_->start();
   }
-  timeline_.step( 1.0 );
+  timeline_.step(0.01);
 }
 
 void MyApp::draw() {
@@ -77,18 +73,29 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
-    if (mouse_events_ < 1) {
-        target_ = {event.getX(), event.getY()};
-        timeline_.apply(&bird_)
-                .then<ch::RampTo>(target_, 10.0);
-        /* auto sequence = ch::Sequence<ci::vec2>(bird_.value())
-                .then<ch::Hold>(bird_pos_, 1.0)
-                .then<ch::RampTo>(target_, 3.0);
-        auto current_time = std::chrono::system_clock::now();
-        auto duration_in_seconds = std::chrono::duration<double>(current_time.time_since_epoch());
-        double num_seconds = duration_in_seconds.count();
-        bird_pos_ = sequence.getValue(num_seconds); */
-    }
+    auto bounce = ch::makeProcedure<ci::vec2>( 2.0,
+            [] ( ch::Time t, ch::Time duration ) {
+        return ci::vec2( 0, - sin
+        (ch::easeInOutQuad((float) t) * 6 * M_PI ) * 100.0f);
+    } );
+
+    // Create a ramp phrase that moves from left-to-right.
+    auto slide = ch::makeRamp(ci::vec2(0,0),
+            ci::vec2(event.getX() - bird_.value()[0],
+                    event.getY()- bird_.value()[1]), 2.0f, ch::EaseInOutCubic() );
+
+    // Combine the slide and bounce phrases using an AccumulatePhrase.
+    const std::shared_ptr<choreograph::Phrase<glm::vec2>>
+            bounceAndSlide = ch::makeAccumulator<ci::vec2>( ci::vec2
+                    (bird_.value()[0], bird_.value()[1] ), bounce, slide);
+
+    timeline_.apply(&bird_, bounceAndSlide);
+
+    //if (mouse_events_ < 1) {
+        //target_ = {event.getX(), event.getY()};
+        //timeline_.apply(&bird_)
+                //.then<ch::RampTo>(target_, 0.1);
+    //}
     mouse_events_++;
 
 }

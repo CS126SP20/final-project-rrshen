@@ -34,14 +34,15 @@ class MyApp : public cinder::app::App {
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
   bool isLevelComplete_;
+  bool isFalling_;
+  //std::chrono::milliseconds fall_start_time_;
 
-  ci::vec2 bird_pos_;
   ci::vec2 target_;
   float portal_x_;
   float portal_y_;
   size_t mouse_events_;
 
-  ch::Output<ci::vec2> bird_ = bird_pos_;
+  ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
 };
 
