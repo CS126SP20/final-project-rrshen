@@ -14,3 +14,5 @@
  Implemented bird movement in an arc.
  TO DO: Un-magic the numbers.
  Start a new level when the portal is touched.
+ 
+ - **4/26/20** Updated project based on feedback.

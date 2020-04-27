@@ -32,7 +32,7 @@ class MyApp : public cinder::app::App {
   ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
-  bool isLevelComplete_;
+  bool is_level_complete_;
 
   float portal_x_;
   float portal_y_;

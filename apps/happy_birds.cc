@@ -1,6 +1,6 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
 
-#include "my_app.h"
+#include "happy_birds.h"
 
 #include <cinder/app/App.h>
 #include "cinder/ImageIo.h"
@@ -19,24 +19,24 @@ using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
 
-const char kDefaultBird[] = "bird.png";
-const char kDefaultBGM[] = "game-bgm.mp3";
-const char kDefaultBackground[] = "game-background.jpg";
-const char kDefaultPortal[] = "portal.png";
+const std::string kDefaultBird = "bird.png";
+const std::string kDefaultBGM = "game-bgm.mp3";
+const std::string kDefaultBackground = "game-background.jpg";
+const std::string kDefaultPortal = "portal.png";
 
 // These made it look right in Photoshop.
 // I might have them vary with getWindowBounds() later
 // So the window can be adjustable size.
-const float kDefaultBirdWidth = 270;
-const float kDefaultBirdHeight = 240;
-const float kBeginningBirdX = 250;
-const float kBeginningBirdY = 1020;
+const float kDefaultBirdWidth = 200;
+const float kDefaultBirdHeight = 190;
+const float kBeginningBirdX = 400;
 
+const float kDefaultGroundHeight = 1250;
 const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
 
 MyApp::MyApp()
-    : isLevelComplete_{false},
+    : is_level_complete_{false},
       mouse_event_count_{0} {}
 
 void MyApp::setup() {
@@ -50,7 +50,7 @@ void MyApp::setup() {
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
   portal_y_ = ci::Rand::randFloat(0, 1000);
 
-  bird_ = {kBeginningBirdX, kBeginningBirdY};
+  bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
 }
 
 void MyApp::update() {
@@ -73,7 +73,7 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
-    if (mouse_event_count_ < 1) {
+    //if (mouse_event_count_ < 1) {
         // Creates a procedure that bounces half a sine wave.
         auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
                 [] ( ch::Time t, ch::Time duration ) {
@@ -93,7 +93,7 @@ void MyApp::mouseDown(cinder::app::MouseEvent event) {
                         (bird_.value()[0], bird_.value()[1]), bounce, slide);
 
         timeline_.apply(&bird_, bounceAndSlide);
-    }
+    //}
     mouse_event_count_++;
 }
 
