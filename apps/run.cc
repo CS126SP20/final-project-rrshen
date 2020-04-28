@@ -10,7 +10,7 @@ using cinder::app::App;
 using cinder::app::RendererGl;
 
 
-namespace myapp {
+namespace birdapp {
 
 const int kSamples = 8;
 const int kWidth = 2560;
@@ -22,10 +22,10 @@ void SetUp(App::Settings* settings) {
   settings->setTitle("Happy Birds");
 }
 
-}  // namespace myapp
+}  // namespace birdapp
 
 
 // This is a macro that runs the application.
-CINDER_APP(myapp::MyApp,
-           RendererGl(RendererGl::Options().msaa(myapp::kSamples)),
-           myapp::SetUp)
+CINDER_APP(birdapp::BirdApp,
+           RendererGl(RendererGl::Options().msaa(birdapp::kSamples)),
+           birdapp::SetUp)

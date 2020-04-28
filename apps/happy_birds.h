@@ -12,11 +12,11 @@
 
 using namespace ci::audio;
 
-namespace myapp {
+namespace birdapp {
 
-class MyApp : public cinder::app::App {
+class BirdApp : public cinder::app::App {
  public:
-  MyApp();
+  BirdApp();
   void setup() override;
   void update() override;
   void draw() override;
@@ -27,20 +27,24 @@ class MyApp : public cinder::app::App {
   void DrawBackground();
   void DrawBird();
   void DrawPortal();
+  void AimRamp(float x, float y);
 
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
   bool is_level_complete_;
+  bool is_auto_aiming_;
+  std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
 
   float portal_x_;
   float portal_y_;
   size_t mouse_event_count_;
+  size_t num_points_;
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
 };
 
-}  // namespace myapp
+}  // namespace birdapp
 
 #endif  // FINALPROJECT_APPS_MYAPP_H_

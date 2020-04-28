@@ -1,10 +1,10 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
 
-#include <mylibrary/example.h>
+#include <birdgame/example.h>
 
-namespace mylibrary {
+namespace birdgame {
     /*
      * Thoughts.
      * I make an engine that can reset location things.
      */
-}  // namespace mylibrary
+}  // namespace birdgame
