@@ -63,8 +63,10 @@ void BirdApp::update() {
       background_music_->start();
   }
 
-  if (birdgame::DistanceUtil::GetManhattanDistance(bird_.value()[0],
-          bird_.value()[1], ending_x_, ending_y_) < (float) 400 && !is_auto_aiming_) {
+  float bird_x = bird_.value()[0];
+  float bird_y = bird_.value()[1];
+  if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
+          bird_y, ending_x_, ending_y_) < (float) 400 && !is_auto_aiming_) {
       timeline_.clear();
       SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
@@ -72,6 +74,11 @@ void BirdApp::update() {
   }
 
   timeline_.step(0.01);
+
+  if (bird_x == ending_x_ && bird_y == ending_y_) {
+      //Timer? Reset the game and add a point
+      num_points_++;
+  }
 }
 
 void BirdApp::draw() {
