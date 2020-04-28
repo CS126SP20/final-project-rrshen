@@ -27,7 +27,7 @@ class BirdApp : public cinder::app::App {
   void DrawBackground();
   void DrawBird();
   void DrawPortal();
-  void AimRamp(float x, float y);
+  void CurveRampTo(float x, float y);
 
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef bird_texture_;

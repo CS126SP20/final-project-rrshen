@@ -61,15 +61,14 @@ void BirdApp::update() {
       background_music_->start();
   }
 
-  /*
   if (birdgame::DistanceUtil::GetManhattanDistance(bird_.value()[0],
           bird_.value()[1], portal_x_, portal_y_) < (float) 100 && !is_auto_aiming_) {
       timeline_.clear();
-      AimRamp(portal_x_ - (kDefaultBirdWidth / 2),
-              portal_y_ - (kDefaultBirdHeight / 2));
+      CurveRampTo(portal_x_ - (kDefaultBirdWidth / 2),
+                  portal_y_ - (kDefaultBirdHeight / 2));
       timeline_.apply(&bird_, ramp_);
       is_auto_aiming_ = true;
-  } */
+  }
 
   timeline_.step(0.01);
 }
@@ -88,7 +87,7 @@ void BirdApp::keyDown(KeyEvent event) {
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
     if (mouse_event_count_ < 1) {
-        AimRamp(event.getX(), event.getY());
+        CurveRampTo(event.getX(), event.getY());
         timeline_.apply(&bird_, ramp_);
     }
     mouse_event_count_++;
@@ -117,7 +116,7 @@ void BirdApp::DrawPortal() {
       kDefaultPortalWidth, portal_y_ + kDefaultPortalHeight});
 }
 
-void BirdApp::AimRamp(float x, float y) {
+void BirdApp::CurveRampTo(float x, float y) {
     // Creates a procedure that bounces half a sine wave.
     auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
             [] ( ch::Time t, ch::Time duration ) {
@@ -135,4 +134,9 @@ void BirdApp::AimRamp(float x, float y) {
     ramp_ = ch::makeAccumulator<ci::vec2>(ci::vec2
                     (bird_.value()[0], bird_.value()[1]), bounce, slide);
 }
+
+/*
+void BirdApp::SlideRampTo(float x, float y) {
+
+} */
 }  // namespace birdapp
