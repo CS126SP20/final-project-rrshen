@@ -28,6 +28,7 @@ class BirdApp : public cinder::app::App {
   void DrawBird();
   void DrawPortal();
   void CurveRampTo(float x, float y);
+  void SlideRampTo(float x, float y);
 
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef bird_texture_;
@@ -39,6 +40,8 @@ class BirdApp : public cinder::app::App {
 
   float portal_x_;
   float portal_y_;
+  float ending_x_;
+  float ending_y_;
   size_t mouse_event_count_;
   size_t num_points_;
   ch::Output<ci::vec2> bird_;

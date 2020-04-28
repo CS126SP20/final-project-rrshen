@@ -49,6 +49,8 @@ void BirdApp::setup() {
   ci::Rand::randomize();
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
   portal_y_ = ci::Rand::randFloat(0, 1000);
+  ending_x_ = portal_x_ - 100;
+  ending_y_ = portal_y_ + 50;
 
   bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
   is_level_complete_ = false;
@@ -62,10 +64,9 @@ void BirdApp::update() {
   }
 
   if (birdgame::DistanceUtil::GetManhattanDistance(bird_.value()[0],
-          bird_.value()[1], portal_x_, portal_y_) < (float) 100 && !is_auto_aiming_) {
+          bird_.value()[1], ending_x_, ending_y_) < (float) 400 && !is_auto_aiming_) {
       timeline_.clear();
-      CurveRampTo(portal_x_ - (kDefaultBirdWidth / 2),
-                  portal_y_ - (kDefaultBirdHeight / 2));
+      SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
       is_auto_aiming_ = true;
   }
@@ -135,8 +136,9 @@ void BirdApp::CurveRampTo(float x, float y) {
                     (bird_.value()[0], bird_.value()[1]), bounce, slide);
 }
 
-/*
 void BirdApp::SlideRampTo(float x, float y) {
+    ramp_ = ch::makeRamp(ci::vec2(bird_.value()[0], bird_.value()[1]),
+            ci::vec2(x,y), 0.25f, ch::EaseInOutCubic());
+}
 
-} */
 }  // namespace birdapp
