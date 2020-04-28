@@ -16,3 +16,8 @@
  Start a new level when the portal is touched.
  
  - **4/26/20** Updated project based on feedback.
+ 
+ - **4/27/20** Separated ramp-making from mouseDown.
+ Working on bringing the bird to the portal and 
+ changing the game when you 'win'. Considering
+ a level class.
