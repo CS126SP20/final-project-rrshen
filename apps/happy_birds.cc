@@ -37,7 +37,9 @@ const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
 
 BirdApp::BirdApp()
-    : num_points_{0} {}
+    : num_points_{0},
+      is_game_over_ {false},
+      is_paused_ {false} {}
 
 void BirdApp::setup() {
   ci::audio::SourceFileRef bgm_file = ci::audio::load
@@ -59,35 +61,39 @@ void BirdApp::setup() {
 }
 
 void BirdApp::update() {
-  if (!background_music_->isPlaying()) {
-      background_music_->start();
-  }
+  if (!is_paused_) {
+      if (!background_music_->isPlaying()) {
+          background_music_->start();
+      }
 
-  float bird_x = bird_.value()[0];
-  float bird_y = bird_.value()[1];
-  if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
-          bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
-      timeline_.clear();
-      SlideRampTo(ending_x_, ending_y_);
-      timeline_.apply(&bird_, ramp_);
-      is_auto_aiming_ = true;
-  }
+      float bird_x = bird_.value()[0];
+      float bird_y = bird_.value()[1];
+      if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
+                                                       bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
+          timeline_.clear();
+          SlideRampTo(ending_x_, ending_y_);
+          timeline_.apply(&bird_, ramp_);
+          is_auto_aiming_ = true;
+      }
 
-  timeline_.step(0.01);
+      timeline_.step(0.01);
 
-  if (bird_x == ending_x_ && bird_y == ending_y_ && !is_level_complete_) {
-      // Fade to black?
-      time_at_portal_ = std::chrono::system_clock::now();
-      is_level_complete_ = true;
-  }
+      if (bird_x == ending_x_ && bird_y == ending_y_ && !is_level_complete_) {
+          // Fade to black?
+          time_at_portal_ = std::chrono::system_clock::now();
+          is_level_complete_ = true;
+      }
 
-  double elapsed_time =
-          std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
-          - time_at_portal_).count();
+      double elapsed_time =
+              std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+                                                                    - time_at_portal_).count();
 
-  if (elapsed_time > 3 && is_level_complete_) {
-      ResetLevel();
-      num_points_++;
+      if (elapsed_time > 3 && is_level_complete_) {
+          ResetLevel();
+          num_points_++;
+      }
+  } else {
+      background_music_->pause();
   }
 }
 
@@ -101,17 +107,22 @@ void BirdApp::draw() {
 }
 
 void BirdApp::keyDown(KeyEvent event) {
-    if (event.KEY_r) {
+    if (event.getChar() == 'r') {
         ResetLevel();
+    }
+    if (event.getChar() == 'p') {
+        is_paused_ = !is_paused_;
     }
 }
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
-    if (mouse_event_count_ < 1) {
-        CurveRampTo(event.getX(), event.getY());
-        timeline_.apply(&bird_, ramp_);
+    if (!is_paused_) {
+        if (mouse_event_count_ < 1) {
+            CurveRampTo((float) event.getX(), (float) event.getY());
+            timeline_.apply(&bird_, ramp_);
+        }
+        mouse_event_count_++;
     }
-    mouse_event_count_++;
 }
 
 void BirdApp::DrawBackground() {

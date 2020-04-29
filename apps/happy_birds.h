@@ -43,6 +43,8 @@ class BirdApp : public cinder::app::App {
   size_t mouse_event_count_;
   size_t num_points_;
   bool is_level_complete_;
+  bool is_game_over_;
+  bool is_paused_;
   bool is_auto_aiming_;
   std::chrono::time_point<std::chrono::system_clock> time_at_portal_;
 

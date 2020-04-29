@@ -27,7 +27,7 @@
     - Separated ramp-making from mouseDown.
     - Brings bird to portal when it is close. 
         - TO DO:
-            - Reset the game when you 'win'.
+            - [x] Reset the game when you 'win'
             - Considering level class but unsure of contents.
             - Considering a start page and pause/restart.
             - Considering a random float to subtract/add
@@ -36,7 +36,8 @@
  - **4/28/20** 
     - Added PROPOSAL.md
     - Resets positions and adds point in 'win'
-        - TODO: 
-            - Create a ResetLevel function?
-                - To not reset the music
-            - Start page?
+    - Added ResetLevel() function to reset level
+    - R key now triggers a reset of the level
+    
+ - **4/29/20**
+    - P key now triggers a pause of the level
