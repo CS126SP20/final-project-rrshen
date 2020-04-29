@@ -12,14 +12,13 @@
     - Created an image for a game portal.
     - Added all game images and music.
     - Linked Box2D and Choreograph to the project.
-        - Box2D may be unnecessary now. Remove?
  
  - **4/22/20** Implemented much game functionality.
     - Randomized the portal location. 
     - Implemented bird movement in an arc.
         - TO DO: 
-            - Un-magic the numbers.
-            - Restart level after approaching portal.
+            - [ ] Un-magic the numbers.
+            - [x] Restart level after approaching portal.
  
  - **4/26/20** Updated project based on feedback.
  
@@ -28,10 +27,11 @@
     - Brings bird to portal when it is close. 
         - TO DO:
             - [x] Reset the game when you 'win'
-            - Considering level class but unsure of contents.
-            - Considering a start page and pause/restart.
-            - Considering a random float to subtract/add
-            to the mouse click event so it's more fun.
+            - [ ] Possibly create a level class
+            - [ ] Create a start page
+            - [x] Create pause and restart buttons
+            - [ ] Add a random float to the ramp
+            so it's more random and fun.
             
  - **4/28/20** 
     - Added PROPOSAL.md
@@ -41,3 +41,5 @@
     
  - **4/29/20**
     - P key now triggers a pause of the level
+    - Streamlined setup() by calling ResetLevel()
+    - Removed Box2D from the app
