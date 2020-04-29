@@ -29,22 +29,22 @@ class BirdApp : public cinder::app::App {
   void DrawPortal();
   void CurveRampTo(float x, float y);
   void SlideRampTo(float x, float y);
+  void ResetLevel();
 
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
+  float portal_x_;
+  float portal_y_;
+  float ending_x_;
+  float ending_y_;
 
   size_t mouse_event_count_;
   size_t num_points_;
   bool is_level_complete_;
   bool is_auto_aiming_;
   std::chrono::time_point<std::chrono::system_clock> time_at_portal_;
-
-  float portal_x_;
-  float portal_y_;
-  float ending_x_;
-  float ending_y_;
 
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;

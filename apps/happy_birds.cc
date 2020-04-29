@@ -66,7 +66,7 @@ void BirdApp::update() {
   float bird_x = bird_.value()[0];
   float bird_y = bird_.value()[1];
   if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
-          bird_y, ending_x_, ending_y_) < (float) 400 && !is_auto_aiming_) {
+          bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
       timeline_.clear();
       SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
@@ -86,7 +86,7 @@ void BirdApp::update() {
           - time_at_portal_).count();
 
   if (elapsed_time > 3 && is_level_complete_) {
-      setup();
+      ResetLevel();
       num_points_++;
   }
 }
@@ -101,6 +101,9 @@ void BirdApp::draw() {
 }
 
 void BirdApp::keyDown(KeyEvent event) {
+    if (event.KEY_r) {
+        ResetLevel();
+    }
 }
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
@@ -135,27 +138,40 @@ void BirdApp::DrawPortal() {
 }
 
 void BirdApp::CurveRampTo(float x, float y) {
-    // Creates a procedure that bounces half a sine wave.
-    auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
-            [] ( ch::Time t, ch::Time duration ) {
-        return ci::vec2( 0, - 10 * sin
-        (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
-    } );
+  // Creates a procedure that bounces half a sine wave.
+  auto bounce = ch::makeProcedure<ci::vec2>( 0.25,
+          [] ( ch::Time t, ch::Time duration ) {
+      return ci::vec2( 0, - 10 * sin
+      (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
+  } );
 
-    // Creates a ramp phase that moves from  the bird's
-    // current location to the mouse click location.
-    auto slide = ch::makeRamp(ci::vec2(0,0),
-            ci::vec2(x - bird_.value()[0],y
-            - bird_.value()[1]), 0.25f, ch::EaseInOutCubic());
+  // Creates a ramp phase that moves from  the bird's
+  // current location to the mouse click location.
+  auto slide = ch::makeRamp(ci::vec2(0,0),
+          ci::vec2(x - bird_.value()[0],y
+          - bird_.value()[1]), 0.25f, ch::EaseInOutCubic());
 
-    // Combines the phrases using an AccumulatePhrase.
-    ramp_ = ch::makeAccumulator<ci::vec2>(ci::vec2
-                    (bird_.value()[0], bird_.value()[1]), bounce, slide);
+  // Combines the phrases using an AccumulatePhrase.
+  ramp_ = ch::makeAccumulator<ci::vec2>(ci::vec2
+          (bird_.value()[0], bird_.value()[1]), bounce, slide);
 }
 
 void BirdApp::SlideRampTo(float x, float y) {
-    ramp_ = ch::makeRamp(ci::vec2(bird_.value()[0], bird_.value()[1]),
-            ci::vec2(x,y), 0.25f, ch::EaseInOutCubic());
+  ramp_ = ch::makeRamp(ci::vec2(bird_.value()[0], bird_.value()[1]),
+          ci::vec2(x,y), 0.25f, ch::EaseInOutCubic());
+}
+
+void BirdApp::ResetLevel() {
+  ci::Rand::randomize();
+  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
+  portal_y_ = ci::Rand::randFloat(0, 1000);
+  ending_x_ = portal_x_ - 100;
+  ending_y_ = portal_y_ + 50;
+
+  bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
+  is_level_complete_ = false;
+  is_auto_aiming_ = false;
+  mouse_event_count_ = 0;
 }
 
 }  // namespace birdapp
