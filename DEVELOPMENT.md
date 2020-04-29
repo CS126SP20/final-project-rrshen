@@ -35,3 +35,8 @@
             
  - **4/28/20** 
     - Added PROPOSAL.md
+    - Resets positions and adds point in 'win'
+        - TODO: 
+            - Create a ResetLevel function?
+                - To not reset the music
+            - Start page?

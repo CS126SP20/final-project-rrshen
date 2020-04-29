@@ -34,18 +34,21 @@ class BirdApp : public cinder::app::App {
   ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
+
+  size_t mouse_event_count_;
+  size_t num_points_;
   bool is_level_complete_;
   bool is_auto_aiming_;
-  std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
+  std::chrono::time_point<std::chrono::system_clock> time_at_portal_;
 
   float portal_x_;
   float portal_y_;
   float ending_x_;
   float ending_y_;
-  size_t mouse_event_count_;
-  size_t num_points_;
+
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
+  std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
 };
 
 }  // namespace birdapp

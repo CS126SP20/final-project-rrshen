@@ -75,8 +75,18 @@ void BirdApp::update() {
 
   timeline_.step(0.01);
 
-  if (bird_x == ending_x_ && bird_y == ending_y_) {
-      //Timer? Reset the game and add a point
+  if (bird_x == ending_x_ && bird_y == ending_y_ && !is_level_complete_) {
+      // Fade to black?
+      time_at_portal_ = std::chrono::system_clock::now();
+      is_level_complete_ = true;
+  }
+
+  double elapsed_time =
+          std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+          - time_at_portal_).count();
+
+  if (elapsed_time > 3 && is_level_complete_) {
+      setup();
       num_points_++;
   }
 }
