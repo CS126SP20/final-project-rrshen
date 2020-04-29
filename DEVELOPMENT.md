@@ -30,12 +30,12 @@
             - [ ] Possibly create a level class
             - [ ] Create a start page
             - [x] Create pause and restart buttons
-            - [ ] Add a random float to the ramp
+            - [x] Add a random float to the ramp
             so it's more random and fun.
             
  - **4/28/20** 
     - Added PROPOSAL.md
-    - Resets positions and adds point in 'win'
+    - Resets positions and adds a point when you win
     - Added ResetLevel() function to reset level
     - R key now triggers a reset of the level
     
@@ -43,3 +43,4 @@
     - P key now triggers a pause of the level
     - Streamlined setup() by calling ResetLevel()
     - Removed Box2D from the app
+    - Added randomness factor into the ramp

@@ -110,7 +110,10 @@ void BirdApp::keyDown(KeyEvent event) {
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
     if (!is_paused_ && !has_clicked_in_level_) {
-        CurveRampTo((float) event.getX(), (float) event.getY());
+        float random_add_to_x = ci::Rand::randFloat(-150,150);
+        ci::Rand::randomize();
+        CurveRampTo((float) event.getX() + random_add_to_x,
+                (float) event.getY() + ci::Rand::randFloat(0, 300));
         timeline_.apply(&bird_, ramp_);
         has_clicked_in_level_ = true;
     }
