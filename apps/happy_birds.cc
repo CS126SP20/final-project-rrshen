@@ -24,6 +24,8 @@ const std::string kDefaultBird = "bird.png";
 const std::string kDefaultBGM = "game-bgm.mp3";
 const std::string kDefaultBackground = "game-background.jpg";
 const std::string kDefaultPortal = "portal.png";
+const char kDefaultRestart = 'r';
+const char kDefaultPause = 'p';
 
 // These made it look right in Photoshop.
 // I might have them vary with getWindowBounds() later
@@ -48,16 +50,7 @@ void BirdApp::setup() {
   background_music_->start();
   background_music_->setVolume(0.5);
 
-  ci::Rand::randomize();
-  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
-  portal_y_ = ci::Rand::randFloat(0, 1000);
-  ending_x_ = portal_x_ - 100;
-  ending_y_ = portal_y_ + 50;
-
-  bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
-  is_level_complete_ = false;
-  is_auto_aiming_ = false;
-  mouse_event_count_ = 0;
+  ResetLevel();
 }
 
 void BirdApp::update() {
@@ -69,7 +62,7 @@ void BirdApp::update() {
       float bird_x = bird_.value()[0];
       float bird_y = bird_.value()[1];
       if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
-                                                       bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
+              bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
           timeline_.clear();
           SlideRampTo(ending_x_, ending_y_);
           timeline_.apply(&bird_, ramp_);
@@ -107,21 +100,19 @@ void BirdApp::draw() {
 }
 
 void BirdApp::keyDown(KeyEvent event) {
-    if (event.getChar() == 'r') {
+    if (event.getChar() == kDefaultRestart) {
         ResetLevel();
     }
-    if (event.getChar() == 'p') {
+    if (event.getChar() == kDefaultPause) {
         is_paused_ = !is_paused_;
     }
 }
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
-    if (!is_paused_) {
-        if (mouse_event_count_ < 1) {
-            CurveRampTo((float) event.getX(), (float) event.getY());
-            timeline_.apply(&bird_, ramp_);
-        }
-        mouse_event_count_++;
+    if (!is_paused_ && !has_clicked_in_level_) {
+        CurveRampTo((float) event.getX(), (float) event.getY());
+        timeline_.apply(&bird_, ramp_);
+        has_clicked_in_level_ = true;
     }
 }
 
@@ -182,7 +173,7 @@ void BirdApp::ResetLevel() {
   bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
   is_level_complete_ = false;
   is_auto_aiming_ = false;
-  mouse_event_count_ = 0;
+  has_clicked_in_level_ = false;
 }
 
 }  // namespace birdapp

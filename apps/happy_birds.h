@@ -40,9 +40,9 @@ class BirdApp : public cinder::app::App {
   float ending_x_;
   float ending_y_;
 
-  size_t mouse_event_count_;
   size_t num_points_;
   bool is_level_complete_;
+  bool has_clicked_in_level_;
   bool is_game_over_;
   bool is_paused_;
   bool is_auto_aiming_;
