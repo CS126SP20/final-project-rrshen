@@ -32,3 +32,6 @@
             - Considering a start page and pause/restart.
             - Considering a random float to subtract/add
             to the mouse click event so it's more fun.
+            
+ - **4/28/20** 
+    - Added PROPOSAL.md
