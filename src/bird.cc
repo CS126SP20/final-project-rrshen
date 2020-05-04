@@ -1,3 +1,4 @@
+/*
 #include <birdgame/bird.h>
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
@@ -14,7 +15,7 @@ const float kBeginningBirdX = 400;
 Bird::Bird();
 
 
-}
+} */
 /*
  * public:
   Bird();

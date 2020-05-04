@@ -50,3 +50,6 @@
  - **5/3/20**
     - Added Bird class
     - Added enum class of game states
+    
+ - **5/4/20**
+     - Made start page image

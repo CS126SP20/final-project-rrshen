@@ -22,6 +22,7 @@ using cinder::Rectf;
 
 const std::string kDefaultBird = "bird.png";
 const std::string kDefaultBGM = "game-bgm.mp3";
+const std::string kDefaultStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
 const std::string kDefaultPortal = "portal.png";
 const char kDefaultRestart = 'r';
@@ -40,7 +41,7 @@ const float kDefaultPortalHeight = 305;
 
 BirdApp::BirdApp()
     : num_points_{0},
-      state_ {GameState::kPlaying},
+      state_ {GameState::kStartScreen},
       is_paused_ {false} {}
 
 void BirdApp::setup() {
@@ -49,8 +50,6 @@ void BirdApp::setup() {
   background_music_ = ci::audio::Voice::create(bgm_file);
   background_music_->start();
   background_music_->setVolume(0.5);
-
-  ResetLevel();
 }
 
 void BirdApp::update() {
@@ -95,15 +94,18 @@ void BirdApp::draw() {
   ci::gl::color(Color::white());
 
   DrawBackground();
-  DrawPortal();
-  DrawBird();
+  if (state_ != GameState::kStartScreen) {
+      DrawPortal();
+      DrawBird();
+  }
 }
 
 void BirdApp::keyDown(KeyEvent event) {
-    if (event.getChar() == kDefaultRestart) {
+    if (state_ == GameState::kStartScreen) {
         ResetLevel();
-    }
-    if (event.getChar() == kDefaultPause) {
+    } else if (event.getChar() == kDefaultRestart) {
+        ResetLevel();
+    } else if (event.getChar() == kDefaultPause) {
         is_paused_ = !is_paused_;
     }
 }
@@ -120,8 +122,13 @@ void BirdApp::mouseDown(cinder::app::MouseEvent event) {
 }
 
 void BirdApp::DrawBackground() {
-  bg_texture_ = ci::gl::Texture2d::create(
-        loadImage(loadAsset(kDefaultBackground)));
+  if (state_ == GameState::kStartScreen) {
+      bg_texture_ = ci::gl::Texture2d::create(
+              loadImage(loadAsset(kDefaultStartBackground)));
+  } else {
+      bg_texture_ = ci::gl::Texture2d::create(
+              loadImage(loadAsset(kDefaultBackground)));
+  }
   cinder::gl::draw(bg_texture_, getWindowBounds());
 }
 
