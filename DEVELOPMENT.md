@@ -28,7 +28,7 @@
         - TO DO:
             - [x] Reset the game when you 'win'
             - [ ] Possibly create a level class
-            - [ ] Create a start page
+            - [x] Create a start page
             - [x] Create pause and restart buttons
             - [x] Add a random float to the ramp
             so it's more random and fun.
@@ -46,10 +46,11 @@
     - Added randomness factor into the ramp
         - TODO: 
             - [ ] Show score
+            - [ ] End game when bird misses
 
  - **5/3/20**
     - Added Bird class
     - Added enum class of game states
     
  - **5/4/20**
-     - Made start page image
+     - Created a starting and ending page

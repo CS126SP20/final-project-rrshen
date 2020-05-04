@@ -24,6 +24,7 @@ const std::string kDefaultBird = "bird.png";
 const std::string kDefaultBGM = "game-bgm.mp3";
 const std::string kDefaultStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
+const std::string kDefaultEndBackground = "end-screen.jpg";
 const std::string kDefaultPortal = "portal.png";
 const char kDefaultRestart = 'r';
 const char kDefaultPause = 'p';
@@ -125,6 +126,10 @@ void BirdApp::DrawBackground() {
   if (state_ == GameState::kStartScreen) {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultStartBackground)));
+  } else if (state_ == GameState::kGameOver) {
+      bg_texture_ = ci::gl::Texture2d::create(
+              loadImage(loadAsset(kDefaultEndBackground)));
+      // TODO: Print score
   } else {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultBackground)));
@@ -176,7 +181,7 @@ void BirdApp::SlideRampTo(float x, float y) {
 void BirdApp::ResetLevel() {
   ci::Rand::randomize();
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
-  portal_y_ = ci::Rand::randFloat(0, 1000);
+  portal_y_ = ci::Rand::randFloat(0, kDefaultGroundHeight - kDefaultPortalHeight);
   ending_x_ = portal_x_ - 100;
   ending_y_ = portal_y_ + 50;
 
