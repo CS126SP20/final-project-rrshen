@@ -48,8 +48,8 @@ void BirdApp::update() {
 
   float bird_x = bird_.value()[0];
   float bird_y = bird_.value()[1];
-  if (GetManhattanDistance(bird_x, bird_y,
-          ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
+  if (GetEuclideanDistance(bird_x, bird_y,
+                           ending_x_, ending_y_) < (float) 200 && state_ == GameState::kPlaying) { //get rid of magic number >:(
       timeline_.clear();
       SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
@@ -65,7 +65,8 @@ void BirdApp::update() {
   }
 
   double elapsed_time =
-          std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+          std::chrono::duration_cast<std::chrono
+          ::milliseconds>(std::chrono::system_clock::now()
           - time_at_portal_).count();
 
   if (elapsed_time > 3 && state_ == GameState::kLevelOver) {
@@ -99,7 +100,7 @@ void BirdApp::keyDown(KeyEvent event) {
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
     if (!is_paused_ && !has_clicked_in_level_) {
-        float random_add_to_x = ci::Rand::randFloat(-150,150);
+        float random_add_to_x = ci::Rand::randFloat(-200,200);
         ci::Rand::randomize();
         CurveRampTo((float) event.getX() + random_add_to_x,
                 (float) event.getY() + ci::Rand::randFloat(0, 300));

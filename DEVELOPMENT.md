@@ -63,7 +63,8 @@
      - Created a starting and ending page
      - Added weekly headers to DEVELOPMENT.md
      - Rearranged update() for minimal nesting
-     - Made GetManhattanDistance() standalone
+     - Changed GetManhattanDistance() to Euclidean
+     and made the function a standalone function
      - Created a header file for my constants
      - Wrote a README file with a GIF
         - TODO: 

@@ -7,7 +7,7 @@
 
 namespace birdgame {
 
-float GetManhattanDistance(float x1, float y1, float x2, float y2);
+float GetEuclideanDistance(float x1, float y1, float x2, float y2);
 
 } //namespace birdgame
 
