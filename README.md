@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-yes-brightgreen)](docs/README.md)
 
-![](https://i.imgur.com/jq5HTFJ.gif)
+![](assets/happy-birds-screen-capture.gif)
 
 Happy Birds is a single-player action game where the player attempts to
 launch their bird into a portal using their mouse. See [rules](#Rules).
