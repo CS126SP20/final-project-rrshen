@@ -11,7 +11,7 @@
 #include <choreograph/Choreograph.h>
 #include <birdgame/distance_util.h>
 #include <birdgame/config.h>
-//#include <birdgame/bird.h>
+#include <birdgame/bird.h>
 
 using namespace ci::audio;
 using namespace birdgame;
@@ -41,6 +41,7 @@ void BirdApp::update() {
       background_music_->pause();
       return;
   }
+
   if (!background_music_->isPlaying()) {
       background_music_->start();
   }
@@ -78,17 +79,19 @@ void BirdApp::draw() {
   ci::gl::color(Color::white());
 
   DrawBackground();
-  if (state_ != GameState::kStartScreen) {
+  if (state_ != GameState::kStartScreen &&
+  state_ != GameState::kGameOver) {
       DrawPortal();
       DrawBird();
   }
 }
 
 void BirdApp::keyDown(KeyEvent event) {
-    if (state_ == GameState::kStartScreen) {
+    if (state_ == GameState::kStartScreen ||
+    event.getChar() == kDefaultRestart) {
         ResetLevel();
-    } else if (event.getChar() == kDefaultRestart) {
-        ResetLevel();
+    } else if (event.getChar() == kDefaultQuit) {
+        state_ = GameState::kGameOver;
     } else if (event.getChar() == kDefaultPause) {
         is_paused_ = !is_paused_;
     }

@@ -69,4 +69,4 @@
         - TODO: 
             - [ ] Finish Bird() class
             - [ ] Create different birds
-            - [ ] Add `q` as a quit button
+            - [x] Add `q` as a quit button

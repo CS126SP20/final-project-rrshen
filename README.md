@@ -23,8 +23,8 @@ launch their bird into a portal using their mouse. See [rules](#Rules).
     2. Then, download Visual Studio Community 2015 with Update 3 for x64.
     3. Run the installer and, if prompted, select Modify and only select
     Common Tools for Visual C++ 2015.
-    4. When the installation is complete, there is no need to Launch. Go
-    back to CLion and make the default toolchain a Visual Studio
+    4. When the installation is complete, there is no need to click Launch.
+    Go back to CLion and make the default toolchain a Visual Studio
     environment that points to C:\Program Files(x86)\Microsoft Visual
     Studio 14.0. Confirm that there are no warnings.
 2. If you don't have Cinder, [download it](https://libcinder.org/download).
@@ -53,6 +53,7 @@ your score displays as the number of levels you passed.
 |---------- |-------------------------------------------------------------|
 | `r`       | Restarts the level                                          |
 | `p`       | Pauses the game                                             |
+| `q`       | Quits the game                                              |
 
 Press any button to exit the starting screen. Your first mouse click in each
 level approximately determines the trajectory of your bird.
