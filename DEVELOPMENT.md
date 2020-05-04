@@ -65,6 +65,8 @@
      - Rearranged update() for minimal nesting
      - Made GetManhattanDistance() standalone
      - Created a header file for my constants
+     - Wrote a README file
         - TODO: 
             - [ ] Finish Bird() class
             - [ ] Create different birds
+            - [ ] Add `q` as a quit button
