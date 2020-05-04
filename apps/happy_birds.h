@@ -14,6 +14,14 @@ using namespace ci::audio;
 
 namespace birdapp {
 
+enum class GameState {
+  kStartScreen,
+  kPlaying,
+  kAutoAiming,
+  kLevelOver,
+  kGameOver,
+};
+
 class BirdApp : public cinder::app::App {
  public:
   BirdApp();
@@ -37,20 +45,19 @@ class BirdApp : public cinder::app::App {
   VoiceRef background_music_;
   float portal_x_;
   float portal_y_;
-  float ending_x_;
+  float ending_x_; //add comments explaining what this is
   float ending_y_;
 
   size_t num_points_;
-  bool is_level_complete_;
+  GameState state_;
   bool has_clicked_in_level_;
-  bool is_game_over_;
   bool is_paused_;
-  bool is_auto_aiming_;
   std::chrono::time_point<std::chrono::system_clock> time_at_portal_;
 
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
   std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
+  //maybe put ^^this stuff into a bird class
 };
 
 }  // namespace birdapp

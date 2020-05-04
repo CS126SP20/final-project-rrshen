@@ -44,3 +44,9 @@
     - Streamlined setup() by calling ResetLevel()
     - Removed Box2D from the app
     - Added randomness factor into the ramp
+        - TODO: 
+            - [ ] Show score
+
+ - **5/3/20**
+    - Added Bird class
+    - Added enum class of game states

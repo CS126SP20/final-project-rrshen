@@ -1,4 +1,4 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 Rachel Shen. All rights reserved.
 
 #include "happy_birds.h"
 
@@ -40,7 +40,7 @@ const float kDefaultPortalHeight = 305;
 
 BirdApp::BirdApp()
     : num_points_{0},
-      is_game_over_ {false},
+      state_ {GameState::kPlaying},
       is_paused_ {false} {}
 
 void BirdApp::setup() {
@@ -62,26 +62,26 @@ void BirdApp::update() {
       float bird_x = bird_.value()[0];
       float bird_y = bird_.value()[1];
       if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
-              bird_y, ending_x_, ending_y_) < (float) 300 && !is_auto_aiming_) {
+              bird_y, ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
           timeline_.clear();
           SlideRampTo(ending_x_, ending_y_);
           timeline_.apply(&bird_, ramp_);
-          is_auto_aiming_ = true;
+          state_ = GameState::kAutoAiming;
       }
 
       timeline_.step(0.01);
 
-      if (bird_x == ending_x_ && bird_y == ending_y_ && !is_level_complete_) {
+      if (bird_x == ending_x_ && bird_y == ending_y_ && state_ == GameState::kAutoAiming) {
           // Fade to black?
           time_at_portal_ = std::chrono::system_clock::now();
-          is_level_complete_ = true;
+          state_ = GameState::kLevelOver;
       }
 
       double elapsed_time =
               std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
                                                                     - time_at_portal_).count();
 
-      if (elapsed_time > 3 && is_level_complete_) {
+      if (elapsed_time > 3 && state_ == GameState::kLevelOver) {
           ResetLevel();
           num_points_++;
       }
@@ -174,8 +174,7 @@ void BirdApp::ResetLevel() {
   ending_y_ = portal_y_ + 50;
 
   bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
-  is_level_complete_ = false;
-  is_auto_aiming_ = false;
+  state_ = GameState::kPlaying;
   has_clicked_in_level_ = false;
 }
 
