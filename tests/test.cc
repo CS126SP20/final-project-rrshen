@@ -13,3 +13,8 @@ TEST_CASE("Random sanity test", "[random]") {
   REQUIRE(0. <= random);
   REQUIRE(random <= 1.);
 }
+
+/*
+ * Things to test:
+ * Maybe my distance util
+ */

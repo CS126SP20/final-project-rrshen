@@ -47,8 +47,8 @@ void BirdApp::update() {
 
   float bird_x = bird_.value()[0];
   float bird_y = bird_.value()[1];
-  if (birdgame::GetManhattanDistance(bird_x,
-          bird_y, ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
+  if (GetManhattanDistance(bird_x, bird_y,
+          ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
       timeline_.clear();
       SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
