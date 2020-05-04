@@ -63,3 +63,8 @@
      - Created a starting and ending page
      - Added weekly headers to DEVELOPMENT.md
      - Rearranged update() for minimal nesting
+     - Made GetManhattanDistance() standalone
+     - Created a header file for my constants
+        - TODO: 
+            - [ ] Finish Bird() class
+            - [ ] Create different birds

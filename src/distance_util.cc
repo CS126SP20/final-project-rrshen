@@ -7,7 +7,7 @@
 namespace birdgame {
 
 // Code copied from Mineopoly
-float DistanceUtil::GetManhattanDistance(float x1, float y1, float x2, float y2) {
+float GetManhattanDistance(float x1, float y1, float x2, float y2) {
     return abs(x1 - x2) + abs(y1 - y2);
 }
 
