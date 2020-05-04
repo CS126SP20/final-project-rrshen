@@ -62,3 +62,4 @@
  - **5/4/20** Continued updating project.
      - Created a starting and ending page
      - Added weekly headers to DEVELOPMENT.md
+     - Rearranged update() for minimal nesting

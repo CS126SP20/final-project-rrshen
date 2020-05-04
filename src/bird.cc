@@ -1,4 +1,3 @@
-/*
 #include <birdgame/bird.h>
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
@@ -11,11 +10,7 @@ const std::string kDefaultBird = "bird.png";
 const float kDefaultBirdWidth = 200;
 const float kDefaultBirdHeight = 190;
 const float kBeginningBirdX = 400;
-
-Bird::Bird();
-
-
-} */
+}
 /*
  * public:
   Bird();

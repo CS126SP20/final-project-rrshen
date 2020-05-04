@@ -1,7 +1,7 @@
 //
 // Created by shen0 on 5/3/2020.
 //
-/*
+
 #ifndef FINALPROJECT_BIRD_H
 #define FINALPROJECT_BIRD_H
 
@@ -15,8 +15,8 @@ namespace bird {
 class Bird {
  public:
   Bird();
-  DrawBird();
-  Reset();
+  void DrawBird();
+  void Reset();
  private:
   void CurveRampTo(float x, float y);
   void SlideRampTo(float x, float y);
@@ -28,4 +28,4 @@ class Bird {
 
 }
 
-#endif //FINALPROJECT_BIRD_H */
+#endif //FINALPROJECT_BIRD_H

@@ -10,6 +10,7 @@
 #include "cinder/Rand.h"
 #include <choreograph/Choreograph.h>
 #include <birdgame/distance_util.h>
+//#include <birdgame/bird.h>
 
 using namespace ci::audio;
 
@@ -54,39 +55,39 @@ void BirdApp::setup() {
 }
 
 void BirdApp::update() {
-  if (!is_paused_) {
-      if (!background_music_->isPlaying()) {
-          background_music_->start();
-      }
-
-      float bird_x = bird_.value()[0];
-      float bird_y = bird_.value()[1];
-      if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
-              bird_y, ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
-          timeline_.clear();
-          SlideRampTo(ending_x_, ending_y_);
-          timeline_.apply(&bird_, ramp_);
-          state_ = GameState::kAutoAiming;
-      }
-
-      timeline_.step(0.01);
-
-      if (bird_x == ending_x_ && bird_y == ending_y_ && state_ == GameState::kAutoAiming) {
-          // Fade to black?
-          time_at_portal_ = std::chrono::system_clock::now();
-          state_ = GameState::kLevelOver;
-      }
-
-      double elapsed_time =
-              std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
-                                                                    - time_at_portal_).count();
-
-      if (elapsed_time > 3 && state_ == GameState::kLevelOver) {
-          ResetLevel();
-          num_points_++;
-      }
-  } else {
+  if (is_paused_) {
       background_music_->pause();
+      return;
+  }
+  if (!background_music_->isPlaying()) {
+      background_music_->start();
+  }
+
+  float bird_x = bird_.value()[0];
+  float bird_y = bird_.value()[1];
+  if (birdgame::DistanceUtil::GetManhattanDistance(bird_x,
+          bird_y, ending_x_, ending_y_) < (float) 300 && state_ == GameState::kPlaying) { //get rid of magic number >:(
+      timeline_.clear();
+      SlideRampTo(ending_x_, ending_y_);
+      timeline_.apply(&bird_, ramp_);
+      state_ = GameState::kAutoAiming;
+  }
+
+  timeline_.step(0.01);
+
+  if (bird_x == ending_x_ && bird_y == ending_y_ && state_ == GameState::kAutoAiming) {
+      // Fade to black?
+      time_at_portal_ = std::chrono::system_clock::now();
+      state_ = GameState::kLevelOver;
+  }
+
+  double elapsed_time =
+          std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()
+          - time_at_portal_).count();
+
+  if (elapsed_time > 3 && state_ == GameState::kLevelOver) {
+      ResetLevel();
+      num_points_++;
   }
 }
 
