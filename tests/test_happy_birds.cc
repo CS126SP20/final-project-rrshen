@@ -8,7 +8,7 @@
 #include <birdgame/bird.h>
 
 
-TEST_CASE("Test Get Manhattan Distance", "[distance_util]") {
+TEST_CASE("Test Get Euclidean Distance", "[distance_util]") {
   SECTION("Horizontal Distances") {
 
   }

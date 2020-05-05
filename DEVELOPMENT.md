@@ -36,6 +36,7 @@
         - TO DO:
             - [x] Reset the game when you 'win'
             - [ ] Possibly create a level class
+                - Decided that this wasn't necessary
             - [x] Create a start page
             - [x] Create pause and restart buttons
             - [x] Add a random float to the ramp
@@ -52,7 +53,7 @@
     - Streamlined setup() by calling ResetLevel()
     - Removed Box2D from the app
     - Added randomness factor into the ramp
-        - TODO: 
+        - TO DO: 
             - [x] Show score
             - [x] End game when bird misses
 
@@ -70,13 +71,20 @@
     and made it a standalone function
     - Created a header file for constants
     - Wrote a README file with a GIF
-        - TODO: 
-            - [ ] Finish Bird() class
+        - TO DO: 
+            - [x] Finish Bird() class
             - [ ] Create different birds
             - [x] Add `q` as a quit button
             - [x] Add `n` as a new game button?
   
- - **5/4/20** *Made smaller adjustments.*
+ - **5/5/20** *Made smaller adjustments.*
     - Added a delay before the ending screen
     - Made line comments explaining ending_x_ and ending_y_
     - Made the user's score display during and after the game
+        - Remember to adjust the font size, textbox size, 
+        and the score location if adjustments are necessary
+    - Fully implemented the Bird class and integrated it into
+    the happy_birds.cc code
+        - TO DO:
+            - [ ] Document classes and methods
+            - [ ] Write distance tests

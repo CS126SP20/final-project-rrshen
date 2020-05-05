@@ -15,7 +15,7 @@ const std::string kDefaultStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
 const std::string kDefaultEndBackground = "end-screen.jpg";
 const std::string kDefaultPortal = "portal.png";
-const std::string kNormalFont = "Arial";
+const std::string kDefaultFont = "Arial";
 
 const char kDefaultRestart = 'r';
 const char kDefaultPause = 'p';
@@ -31,12 +31,13 @@ const float kDefaultGroundHeight = 1250;
 const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
 
-const ci::vec2 kDefaultInGameScoreLoc = {2250, 100};
-const ci::vec2 kDefaultEndGameScoreLoc = {1300, 900};
-const ci::ivec2 kDefaultInGameScoreSize = {300, 100};
-const ci::ivec2 kDefaultEndGameScoreSize = {275, 220};
-const ci::Color kDefaultScoreColor = Color(194, 139, 46);
-const size_t kDefaultInGameFontSize = 90;
+const ci::vec2 kDefaultInGameScoreLoc = {2300, 100};
+const ci::vec2 kDefaultEndGameScoreLoc = {1285, 900};
+const ci::ivec2 kDefaultInGameScoreSize = {400, 150};
+const ci::ivec2 kDefaultEndGameScoreSize = {600, 220};
+const ci::Color kDefaultScoreColor =
+        Color(194.0 / 255.0, 139.0 / 255.0, 46.0 / 255.0);
+const size_t kDefaultInGameFontSize = 100;
 const size_t kDefaultEndGameFontSize = 300;
 
 const float kDefaultVolume = 0.5;

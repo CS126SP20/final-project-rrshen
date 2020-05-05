@@ -16,10 +16,12 @@ class Bird {
  public:
   Bird();
   void DrawBird();
+  void UpdateBird();
   void ResetBird();
   void CurveRampTo(float x, float y);
   void SlideRampTo(float x, float y);
   void PauseRamp(float duration);
+  bool RampOver();
   float getX();
   float getY();
  private:

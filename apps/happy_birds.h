@@ -8,7 +8,7 @@
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 #include <cinder/audio/Voice.h>
-#include <choreograph/Choreograph.h>
+#include <birdgame/bird.h>
 
 using namespace ci::audio;
 
@@ -33,15 +33,10 @@ class BirdApp : public cinder::app::App {
 
  private:
   void DrawBackground();
-  void DrawBird();
   void DrawPortal();
-  void CurveRampTo(float x, float y);
-  void SlideRampTo(float x, float y);
-  void PauseRamp(float duration);
   void ResetLevel();
 
   ci::gl::Texture2dRef bg_texture_;
-  ci::gl::Texture2dRef bird_texture_;
   ci::gl::Texture2dRef portal_texture_;
   VoiceRef background_music_;
 
@@ -58,10 +53,7 @@ class BirdApp : public cinder::app::App {
   GameState state_;
   bool has_clicked_in_level_;
   bool is_paused_;
-
-  ch::Output<ci::vec2> bird_;
-  ch::Timeline timeline_;
-  std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
+  bird::Bird bird_;
 };
 
 }  // namespace birdapp
