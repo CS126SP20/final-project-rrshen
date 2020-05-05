@@ -60,16 +60,20 @@
     - Added enum class of game states
     
  - **5/4/20** Continued updating project.
-     - Created a starting and ending page
-     - Added weekly headers to DEVELOPMENT.md
-     - Rearranged update() for minimal nesting
-     - Changed GetManhattanDistance() to Euclidean
-     and made the function a standalone function
-     - Created a header file for my constants
-     - Wrote a README file with a GIF
-     - Fixed button conditionals
+    - Created a starting and ending page
+    - Added weekly headers to DEVELOPMENT.md
+    - Rearranged update() for minimal nesting
+    - Changed GetManhattanDistance() to Euclidean
+    and made the function a standalone function
+    - Created a header file for my constants
+    - Wrote a README file with a GIF
+    - Fixed button conditionals
         - TODO: 
             - [ ] Finish Bird() class
             - [ ] Create different birds
             - [x] Add `q` as a quit button
             - [x] Add `n` as a new game button?
+  
+ - **5/4/20** Made smaller adjustments.
+    - Added delay before ending screen
+    - Added line comments explaining ending_x_ and ending_y_

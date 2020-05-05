@@ -16,12 +16,15 @@ class Bird {
  public:
   Bird();
   void DrawBird();
-  void Reset();
- private:
+  void ResetBird();
   void CurveRampTo(float x, float y);
   void SlideRampTo(float x, float y);
-  ch::Output<ci::vec2> bird_;
+  void PauseRamp(float duration);
+  float getX();
+  float getY();
+ private:
   ci::gl::Texture2dRef bird_texture_;
+  ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
   std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
 };

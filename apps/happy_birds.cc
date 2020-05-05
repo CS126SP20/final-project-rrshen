@@ -4,6 +4,8 @@
 
 #include <cinder/app/App.h>
 #include "cinder/ImageIo.h"
+#include <cinder/Font.h>
+#include <cinder/Text.h>
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
 #include <cinder/audio/Voice.h>
@@ -12,6 +14,7 @@
 #include <birdgame/distance_util.h>
 #include <birdgame/config.h>
 #include <birdgame/bird.h>
+
 
 using namespace ci::audio;
 using namespace birdgame;
@@ -22,11 +25,13 @@ using cinder::app::KeyEvent;
 using cinder::Color;
 using cinder::ColorA;
 using cinder::Rectf;
+using cinder::TextBox;
 
 BirdApp::BirdApp()
     : num_points_{0},
       state_ {GameState::kStartScreen},
-      is_paused_ {false} {}
+      is_paused_ {false},
+      is_game_over_ {false} {}
 
 void BirdApp::setup() {
   ci::audio::SourceFileRef bgm_file = ci::audio::load
@@ -49,7 +54,8 @@ void BirdApp::update() {
   float bird_x = bird_.value()[0];
   float bird_y = bird_.value()[1];
   if (GetEuclideanDistance(bird_x, bird_y,
-          ending_x_, ending_y_) < (float) 200 && state_ == GameState::kLaunched) { //get rid of magic number >:(
+          ending_x_, ending_y_) < (float) 200 &&
+          state_ == GameState::kLaunched) { //get rid of magic number >:(
       timeline_.clear();
       SlideRampTo(ending_x_, ending_y_);
       timeline_.apply(&bird_, ramp_);
@@ -59,31 +65,16 @@ void BirdApp::update() {
   timeline_.step(0.01);
 
   if (timeline_.timeUntilFinish() == 0) {
-      if (state_ == GameState::kAutoAiming) {
-          time_at_portal_ = std::chrono::system_clock::now();
-          state_ = GameState::kLevelOver;
+      if (is_game_over_) {
+          state_ = GameState::kEndScreen;
+      } else if (state_ == GameState::kAutoAiming) {
+          num_points_++;
+          ResetLevel();
       } else if (state_ == GameState::kLaunched) {
-          time_at_game_over_ = std::chrono::system_clock::now();
-          state_ = GameState::kGameOver;
+          PauseRamp(kDefaultPauseDuration);
+          timeline_.apply(&bird_, ramp_);
+          is_game_over_ = true;
       }
-  }
-
-  double time_elapsed =
-          std::chrono::duration_cast<std::chrono
-          ::milliseconds>(std::chrono::system_clock::now()
-          - time_at_portal_).count();
-
-  if (time_elapsed > 5 && state_ == GameState::kLevelOver) {
-      ResetLevel();
-      num_points_++;
-  }
-
-  time_elapsed = std::chrono::duration_cast<std::chrono
-  ::milliseconds>(std::chrono::system_clock::now()
-                  - time_at_game_over_).count();
-
-  if (time_elapsed > 100 && state_ == GameState::kGameOver) {
-      state_ = GameState::kEndScreen;
   }
 }
 
@@ -112,6 +103,8 @@ void BirdApp::keyDown(KeyEvent event) {
     event.getChar() == kDefaultNewGame) {
         num_points_ = 0;
         is_paused_ = false;
+        state_ = GameState::kStartScreen;
+        is_game_over_ = false;
         ResetLevel();
     }
 }
@@ -139,6 +132,7 @@ void BirdApp::DrawBackground() {
   } else {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultBackground)));
+      //PrintText("Game Over :(", color, size, center);
   }
   cinder::gl::draw(bg_texture_, getWindowBounds());
 }
@@ -162,8 +156,8 @@ void BirdApp::DrawPortal() {
 
 void BirdApp::CurveRampTo(float x, float y) {
   // Creates a procedure that bounces half a sine wave.
-  auto bounce = ch::makeProcedure<ci::vec2>(kDefaultDuration,
-          [] ( ch::Time t, ch::Time duration ) {
+  auto bounce = ch::makeProcedure<ci::vec2>(kDefaultRampDuration,
+                                            [] ( ch::Time t, ch::Time duration ) {
       return ci::vec2( 0, - 10 * sin
       (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
   } );
@@ -171,8 +165,8 @@ void BirdApp::CurveRampTo(float x, float y) {
   // Creates a ramp phase that moves from  the bird's
   // current location to the mouse click location.
   auto slide = ch::makeRamp(ci::vec2(0,0),
-          ci::vec2(x - bird_.value()[0],y
-          - bird_.value()[1]), kDefaultDuration, ch::EaseInOutCubic());
+                            ci::vec2(x - bird_.value()[0],y
+          - bird_.value()[1]), kDefaultRampDuration, ch::EaseInOutCubic());
 
   // Combines the phrases using an AccumulatePhrase.
   ramp_ = ch::makeAccumulator<ci::vec2>(ci::vec2
@@ -181,15 +175,20 @@ void BirdApp::CurveRampTo(float x, float y) {
 
 void BirdApp::SlideRampTo(float x, float y) {
   ramp_ = ch::makeRamp(ci::vec2(bird_.value()[0], bird_.value()[1]),
-          ci::vec2(x,y), kDefaultDuration, ch::EaseInOutCubic());
+          ci::vec2(x,y), kDefaultRampDuration, ch::EaseInOutCubic());
+}
+
+void BirdApp::PauseRamp(float duration) {
+  ramp_ = ch::makeRamp(ci::vec2(bird_.value()[0], bird_.value()[1]),
+          ci::vec2(bird_.value()[0], bird_.value()[1]), duration, ch::EaseInOutCubic());
 }
 
 void BirdApp::ResetLevel() {
   ci::Rand::randomize();
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
   portal_y_ = ci::Rand::randFloat(0, kDefaultGroundHeight - kDefaultPortalHeight);
-  ending_x_ = portal_x_ - 100;
-  ending_y_ = portal_y_ + 50;
+  ending_x_ = portal_x_ - (kDefaultBirdWidth / 2);
+  ending_y_ = portal_y_ + (kDefaultPortalHeight / 2) - (kDefaultBirdHeight / 2);
 
   bird_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
   state_ = GameState::kPlaying;

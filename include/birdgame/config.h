@@ -13,6 +13,7 @@ const std::string kDefaultStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
 const std::string kDefaultEndBackground = "end-screen.jpg";
 const std::string kDefaultPortal = "portal.png";
+
 const char kDefaultRestart = 'r';
 const char kDefaultPause = 'p';
 const char kDefaultQuit = 'q';
@@ -27,8 +28,18 @@ const float kDefaultGroundHeight = 1250;
 const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
 
+const float kDefaultInGameScoreX = 2200;
+const float kDefaultInGameScoreY = 20;
+const float kDefaultEndGameScoreX = 1300;
+const float kDefaultEndGameScoreY = 850;
+/*
+    const cinder::vec2 center = getWindowCenter();
+    const cinder::ivec2 size = {500, 50};
+    const Color color = Color::black(); */
+
 const float kDefaultVolume = 0.5;
-const float kDefaultDuration = 0.25;
+const float kDefaultRampDuration = 0.25;
+const float kDefaultPauseDuration = 0.05;
 
 } //namespace birdgame
 

@@ -1,7 +1,5 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
 
-#include <birdgame/distance_util.h>
-
 #include <cmath>
 
 namespace birdgame {
