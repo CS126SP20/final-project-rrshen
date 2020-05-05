@@ -20,7 +20,7 @@
     - Randomized the portal location. 
     - Coded bird movement in an arc.
         - TO DO: 
-            - [ ] Un-magic the numbers.
+            - [x] Un-magic the numbers.
             - [x] Restart level after approaching portal.
  
 ## Week Two
@@ -88,3 +88,4 @@
         - TO DO:
             - [ ] Document classes and methods
             - [ ] Write distance tests
+            - [ ] Check spacing

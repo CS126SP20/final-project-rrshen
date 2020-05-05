@@ -17,33 +17,33 @@ void Bird::DrawBird() {
           (loadImage(ci::app::loadAsset(kDefaultBird)));
   cinder::gl::draw(bird_texture_, {
       GetX(), GetY(), GetX() +
-      kDefaultBirdWidth, GetY() + kDefaultBirdHeight});
+      kBirdWidth, GetY() + kBirdHeight});
 }
 
 void Bird::UpdateBird() {
-  timeline_.step(0.01);
+  timeline_.step(kTimelineStepSize);
 }
 
 void Bird::ResetBird() {
   timeline_.clear();
-  bird_pos_ = {kBeginningBirdX, kDefaultGroundHeight - kDefaultBirdHeight};
+  bird_pos_ = {kBeginningBirdX, kGroundHeight - kBirdHeight};
 }
 
 void Bird::CurveRampTo(float x, float y) {
   timeline_.clear();
 
   // Creates a procedure that bounces half a sine wave.
-  auto bounce = ch::makeProcedure<ci::vec2>(kDefaultRampDuration,
+  auto bounce = ch::makeProcedure<ci::vec2>(kRampDuration,
           [] ( ch::Time t, ch::Time duration ) {
-      return ci::vec2( 0, - 10 * sin
-      (ch::easeInOutQuad((float) t) * M_PI ) * 50.0f);
+      return ci::vec2( 0, kCurveRampAmplitude * sin
+      (ch::easeInOutQuad((float) t) * M_PI ));
   } );
 
   // Creates a ramp phase that moves from  the bird's
   // current location to the mouse click location.
   auto slide = ch::makeRamp(ci::vec2(0,0),
           ci::vec2(x - GetX(),y
-          - GetY()), kDefaultRampDuration, ch::EaseInOutCubic());
+          - GetY()), kRampDuration, ch::EaseInOutCubic());
 
   // Combines the phrases using an AccumulatePhrase.
   ramp_ = ch::makeAccumulator<ci::vec2>(ci::vec2
@@ -55,7 +55,7 @@ void Bird::CurveRampTo(float x, float y) {
 void Bird::SlideRampTo(float x, float y) {
   timeline_.clear();
   ramp_ = ch::makeRamp(ci::vec2(GetX(), GetY()),
-          ci::vec2(x,y), kDefaultRampDuration, ch::EaseInOutCubic());
+          ci::vec2(x,y), kRampDuration, ch::EaseInOutCubic());
   timeline_.apply(&bird_pos_, ramp_);
 }
 

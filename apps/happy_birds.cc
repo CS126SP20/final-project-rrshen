@@ -22,7 +22,7 @@ BirdApp::BirdApp()
 
 void BirdApp::setup() {
   ci::audio::SourceFileRef bgm_file =
-          ci::audio::load(ci::app::loadAsset(kDefaultBGM));
+          ci::audio::load(ci::app::loadAsset(kBackgroundMusic));
   background_music_ = ci::audio::Voice::create(bgm_file);
   background_music_->start();
   background_music_->setVolume(kDefaultVolume);
@@ -40,9 +40,8 @@ void BirdApp::update() {
 
   float bird_x = bird_.GetX();
   float bird_y = bird_.GetY();
-  if (GetEuclideanDistance(bird_x, bird_y,
-          ending_x_, ending_y_) < (float) 200 &&
-          state_ == GameState::kLaunched) { //get rid of magic number >:(
+  if (GetEuclideanDistance(bird_x, bird_y, ending_x_, ending_y_) <
+  kPortalGravityRadius && state_ == GameState::kLaunched) {
       bird_.SlideRampTo(ending_x_, ending_y_);
       state_ = GameState::kAutoAiming;
   }
@@ -56,7 +55,7 @@ void BirdApp::update() {
           num_points_++;
           ResetLevel();
       } else if (state_ == GameState::kLaunched) {
-          bird_.PauseRamp(kDefaultPauseDuration);
+          bird_.PauseRamp(kPauseDuration);
           is_game_over_ = true;
       }
   }
@@ -72,25 +71,27 @@ void BirdApp::draw() {
       DrawPortal();
       bird_.DrawBird();
       std::string score = "Points: " + std::to_string(num_points_);
-      PrintText(score, kDefaultScoreColor, kDefaultInGameScoreSize, kDefaultInGameScoreLoc, kDefaultInGameFontSize);
+      PrintText(score, kScoreColor, kInGameScoreSize,
+                kInGameScoreLoc, kInGameFontSize);
   } else if (state_ == GameState::kEndScreen) {
       std::string score = std::to_string(num_points_);
-      PrintText(score, kDefaultScoreColor, kDefaultEndGameScoreSize, kDefaultEndGameScoreLoc, kDefaultEndGameFontSize);
+      PrintText(score, kScoreColor, kEndGameScoreSize,
+                kEndGameScoreLoc, kEndGameFontSize);
   }
 }
 
 void BirdApp::keyDown(ci::app::KeyEvent event) {
     if (state_ == GameState::kStartScreen ||
     (state_ == GameState::kPlaying &&
-    event.getChar() == kDefaultRestart)) {
+     event.getChar() == kRestartKey)) {
         ResetLevel();
-    } else if (event.getChar() == kDefaultQuit) {
+    } else if (event.getChar() == kQuitKey) {
         bird_.ResetBird();
         state_ = GameState::kEndScreen;
-    } else if (event.getChar() == kDefaultPause) {
+    } else if (event.getChar() == kPauseKey) {
         is_paused_ = !is_paused_;
     } else if (state_ == GameState::kEndScreen &&
-    event.getChar() == kDefaultNewGame) {
+               event.getChar() == kNewGameKey) {
         num_points_ = 0;
         state_ = GameState::kStartScreen;
         is_game_over_ = false;
@@ -102,10 +103,13 @@ void BirdApp::mouseDown(cinder::app::MouseEvent event) {
     if (!is_paused_ && !has_clicked_in_level_
     && state_ == GameState::kPlaying) {
         state_ = GameState::kLaunched;
-        float random_add_to_x = ci::Rand::randFloat(-200,200);
+
+        float random_add_to_x = ci::Rand::randFloat(-(kRandomXRange), kRandomXRange);
+        // To ensure the random values aren't dependent on each other
         ci::Rand::randomize();
         bird_.CurveRampTo((float) event.getX() + random_add_to_x,
-                (float) event.getY() + ci::Rand::randFloat(0, 300));
+                (float) event.getY() + ci::Rand::randFloat(0, kRandomYRange));
+
         has_clicked_in_level_ = true;
     }
 }
@@ -113,10 +117,10 @@ void BirdApp::mouseDown(cinder::app::MouseEvent event) {
 void BirdApp::DrawBackground() {
   if (state_ == GameState::kStartScreen) {
       bg_texture_ = ci::gl::Texture2d::create(
-              loadImage(loadAsset(kDefaultStartBackground)));
+              loadImage(loadAsset(kStartBackground)));
   } else if (state_ == GameState::kEndScreen) {
       bg_texture_ = ci::gl::Texture2d::create(
-              loadImage(loadAsset(kDefaultEndBackground)));
+              loadImage(loadAsset(kEndBackground)));
   } else {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultBackground)));
@@ -126,19 +130,20 @@ void BirdApp::DrawBackground() {
 
 void BirdApp::DrawPortal() {
   portal_texture_ = ci::gl::Texture2d::create(
-          loadImage(loadAsset(kDefaultPortal)));
+          loadImage(loadAsset(kPortal)));
 
   cinder::gl::draw(portal_texture_, {
-      portal_x_, portal_y_, portal_x_ +
-      kDefaultPortalWidth, portal_y_ + kDefaultPortalHeight});
+          portal_x_, portal_y_, portal_x_ +
+                                kPortalWidth, portal_y_ + kPortalHeight});
 }
 
 void BirdApp::ResetLevel() {
   ci::Rand::randomize();
-  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth, 2560);
-  portal_y_ = ci::Rand::randFloat(0, kDefaultGroundHeight - kDefaultPortalHeight);
-  ending_x_ = portal_x_ - (kDefaultBirdWidth / 2);
-  ending_y_ = portal_y_ + (kDefaultPortalHeight / 2) - (kDefaultBirdHeight / 2);
+  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kBirdWidth,
+                                  kSkyWidth - kPortalWidth);
+  portal_y_ = ci::Rand::randFloat(0, kGroundHeight - kPortalHeight);
+  ending_x_ = portal_x_ - (kBirdWidth / 2);
+  ending_y_ = portal_y_ + (kPortalHeight / 2) - (kBirdHeight / 2);
 
   bird_.ResetBird();
   state_ = GameState::kPlaying;
