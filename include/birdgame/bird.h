@@ -5,9 +5,6 @@
 #ifndef FINALPROJECT_BIRD_H
 #define FINALPROJECT_BIRD_H
 
-#include "cinder/Rand.h"
-#include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
 #include <choreograph/Choreograph.h>
 
 namespace bird {
@@ -18,15 +15,18 @@ class Bird {
   void DrawBird();
   void UpdateBird();
   void ResetBird();
+
   void CurveRampTo(float x, float y);
   void SlideRampTo(float x, float y);
   void PauseRamp(float duration);
-  bool RampOver();
-  float getX();
-  float getY();
+  bool IsRampOver();
+
+  float GetX();
+  float GetY();
+
  private:
   ci::gl::Texture2dRef bird_texture_;
-  ch::Output<ci::vec2> bird_;
+  ch::Output<ci::vec2> bird_pos_;
   ch::Timeline timeline_;
   std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
 };

@@ -2,29 +2,16 @@
 
 #include "happy_birds.h"
 
-#include <cinder/app/App.h>
-#include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
-#include <cinder/audio/Voice.h>
 #include "cinder/Rand.h"
 #include <birdgame/distance_util.h>
 #include <birdgame/text_print_util.h>
 #include <birdgame/config.h>
 #include <birdgame/bird.h>
-#include <string>
 
-
-using namespace ci::audio;
 using namespace birdgame;
 
 namespace birdapp {
-
-using cinder::app::KeyEvent;
-using cinder::Color;
-using cinder::ColorA;
-using cinder::Rectf;
-using cinder::TextBox;
 
 BirdApp::BirdApp()
     : num_points_{0},
@@ -34,8 +21,9 @@ BirdApp::BirdApp()
       bird_ {bird::Bird()} {}
 
 void BirdApp::setup() {
-  SourceFileRef bgm_file = load(ci::app::loadAsset(kDefaultBGM));
-  background_music_ = Voice::create(bgm_file);
+  ci::audio::SourceFileRef bgm_file =
+          ci::audio::load(ci::app::loadAsset(kDefaultBGM));
+  background_music_ = ci::audio::Voice::create(bgm_file);
   background_music_->start();
   background_music_->setVolume(kDefaultVolume);
 }
@@ -50,8 +38,8 @@ void BirdApp::update() {
       background_music_->start();
   }
 
-  float bird_x = bird_.getX();
-  float bird_y = bird_.getY();
+  float bird_x = bird_.GetX();
+  float bird_y = bird_.GetY();
   if (GetEuclideanDistance(bird_x, bird_y,
           ending_x_, ending_y_) < (float) 200 &&
           state_ == GameState::kLaunched) { //get rid of magic number >:(
@@ -61,7 +49,7 @@ void BirdApp::update() {
 
   bird_.UpdateBird();
 
-  if (bird_.RampOver()) {
+  if (bird_.IsRampOver()) {
       if (is_game_over_) {
           state_ = GameState::kEndScreen;
       } else if (state_ == GameState::kAutoAiming) {
@@ -91,7 +79,7 @@ void BirdApp::draw() {
   }
 }
 
-void BirdApp::keyDown(KeyEvent event) {
+void BirdApp::keyDown(ci::app::KeyEvent event) {
     if (state_ == GameState::kStartScreen ||
     (state_ == GameState::kPlaying &&
     event.getChar() == kDefaultRestart)) {

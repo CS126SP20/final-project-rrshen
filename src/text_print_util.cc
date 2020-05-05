@@ -1,8 +1,7 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 Rachel Shen. All rights reserved.
 
 #include <cinder/Font.h>
 #include <cinder/Text.h>
-#include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
 #include <birdgame/config.h>
 

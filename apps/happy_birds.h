@@ -4,13 +4,9 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 
 #include <cinder/app/App.h>
-#include "cinder/Rand.h"
-#include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 #include <cinder/audio/Voice.h>
 #include <birdgame/bird.h>
-
-using namespace ci::audio;
 
 namespace birdapp {
 
@@ -38,7 +34,7 @@ class BirdApp : public cinder::app::App {
 
   ci::gl::Texture2dRef bg_texture_;
   ci::gl::Texture2dRef portal_texture_;
-  VoiceRef background_music_;
+  ci::audio::VoiceRef background_music_;
 
   float portal_x_;
   float portal_y_;
