@@ -51,7 +51,7 @@
     - Added randomness factor into the ramp
         - TODO: 
             - [ ] Show score
-            - [ ] End game when bird misses
+            - [x] End game when bird misses
 
 ## Week Three
 
@@ -67,7 +67,9 @@
      and made the function a standalone function
      - Created a header file for my constants
      - Wrote a README file with a GIF
+     - Fixed button conditionals
         - TODO: 
             - [ ] Finish Bird() class
             - [ ] Create different birds
             - [x] Add `q` as a quit button
+            - [x] Add `n` as a new game button?

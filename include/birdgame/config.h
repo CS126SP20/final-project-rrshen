@@ -16,6 +16,7 @@ const std::string kDefaultPortal = "portal.png";
 const char kDefaultRestart = 'r';
 const char kDefaultPause = 'p';
 const char kDefaultQuit = 'q';
+const char kDefaultNewGame = 'n';
 
 // These made it look right in Photoshop.
 const float kDefaultBirdWidth = 200;
@@ -25,6 +26,9 @@ const float kBeginningBirdX = 400;
 const float kDefaultGroundHeight = 1250;
 const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
+
+const float kDefaultVolume = 0.5;
+const float kDefaultDuration = 0.25;
 
 } //namespace birdgame
 

@@ -17,9 +17,11 @@ namespace birdapp {
 enum class GameState {
   kStartScreen,
   kPlaying,
+  kLaunched,
   kAutoAiming,
   kLevelOver,
   kGameOver,
+  kEndScreen,
 };
 
 class BirdApp : public cinder::app::App {
@@ -53,6 +55,7 @@ class BirdApp : public cinder::app::App {
   bool has_clicked_in_level_;
   bool is_paused_;
   std::chrono::time_point<std::chrono::system_clock> time_at_portal_;
+  std::chrono::time_point<std::chrono::system_clock> time_at_game_over_;
 
   ch::Output<ci::vec2> bird_;
   ch::Timeline timeline_;
