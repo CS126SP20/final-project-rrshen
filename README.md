@@ -54,6 +54,7 @@ your score displays as the number of levels you passed.
 | `r`       | Restarts the level                                          |
 | `p`       | Pauses the game                                             |
 | `q`       | Quits the game                                              |
+| `n`       | Restarts the game                                           |
 
 Press any button to exit the starting screen. Your first mouse click in each
 level approximately determines the trajectory of your bird.

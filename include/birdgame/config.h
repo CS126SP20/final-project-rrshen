@@ -7,12 +7,15 @@
 
 namespace birdgame {
 
+using cinder::Color;
+
 const std::string kDefaultBird  = "bird.png";
 const std::string kDefaultBGM = "game-bgm.mp3";
 const std::string kDefaultStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
 const std::string kDefaultEndBackground = "end-screen.jpg";
 const std::string kDefaultPortal = "portal.png";
+const std::string kNormalFont = "Arial";
 
 const char kDefaultRestart = 'r';
 const char kDefaultPause = 'p';
@@ -28,14 +31,13 @@ const float kDefaultGroundHeight = 1250;
 const float kDefaultPortalWidth = 178;
 const float kDefaultPortalHeight = 305;
 
-const float kDefaultInGameScoreX = 2200;
-const float kDefaultInGameScoreY = 20;
-const float kDefaultEndGameScoreX = 1300;
-const float kDefaultEndGameScoreY = 850;
-/*
-    const cinder::vec2 center = getWindowCenter();
-    const cinder::ivec2 size = {500, 50};
-    const Color color = Color::black(); */
+const ci::vec2 kDefaultInGameScoreLoc = {2250, 100};
+const ci::vec2 kDefaultEndGameScoreLoc = {1300, 900};
+const ci::ivec2 kDefaultInGameScoreSize = {300, 100};
+const ci::ivec2 kDefaultEndGameScoreSize = {275, 220};
+const ci::Color kDefaultScoreColor = Color(194, 139, 46);
+const size_t kDefaultInGameFontSize = 90;
+const size_t kDefaultEndGameFontSize = 300;
 
 const float kDefaultVolume = 0.5;
 const float kDefaultRampDuration = 0.25;

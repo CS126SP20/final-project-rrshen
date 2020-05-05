@@ -4,16 +4,16 @@
 
 #include <cinder/app/App.h>
 #include "cinder/ImageIo.h"
-#include <cinder/Font.h>
-#include <cinder/Text.h>
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
 #include <cinder/audio/Voice.h>
 #include "cinder/Rand.h"
 #include <choreograph/Choreograph.h>
 #include <birdgame/distance_util.h>
+#include <birdgame/text_print_util.h>
 #include <birdgame/config.h>
 #include <birdgame/bird.h>
+#include <string>
 
 
 using namespace ci::audio;
@@ -87,6 +87,11 @@ void BirdApp::draw() {
   state_ != GameState::kEndScreen) {
       DrawPortal();
       DrawBird();
+      std::string score = "Points: " + std::to_string(num_points_);
+      PrintText(score, kDefaultScoreColor, kDefaultInGameScoreSize, kDefaultInGameScoreLoc, kDefaultInGameFontSize);
+  } else if (state_ == GameState::kEndScreen) {
+      std::string score = std::to_string(num_points_);
+      PrintText(score, kDefaultScoreColor, kDefaultEndGameScoreSize, kDefaultEndGameScoreLoc, kDefaultEndGameFontSize);
   }
 }
 
@@ -96,13 +101,13 @@ void BirdApp::keyDown(KeyEvent event) {
     event.getChar() == kDefaultRestart)) {
         ResetLevel();
     } else if (event.getChar() == kDefaultQuit) {
+        timeline_.clear();
         state_ = GameState::kEndScreen;
     } else if (event.getChar() == kDefaultPause) {
         is_paused_ = !is_paused_;
     } else if (state_ == GameState::kEndScreen &&
     event.getChar() == kDefaultNewGame) {
         num_points_ = 0;
-        is_paused_ = false;
         state_ = GameState::kStartScreen;
         is_game_over_ = false;
         ResetLevel();
@@ -110,7 +115,8 @@ void BirdApp::keyDown(KeyEvent event) {
 }
 
 void BirdApp::mouseDown(cinder::app::MouseEvent event) {
-    if (!is_paused_ && !has_clicked_in_level_) {
+    if (!is_paused_ && !has_clicked_in_level_
+    && state_ == GameState::kPlaying) {
         state_ = GameState::kLaunched;
         float random_add_to_x = ci::Rand::randFloat(-200,200);
         ci::Rand::randomize();
@@ -128,11 +134,9 @@ void BirdApp::DrawBackground() {
   } else if (state_ == GameState::kEndScreen) {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultEndBackground)));
-      // TODO: Print score
   } else {
       bg_texture_ = ci::gl::Texture2d::create(
               loadImage(loadAsset(kDefaultBackground)));
-      //PrintText("Game Over :(", color, size, center);
   }
   cinder::gl::draw(bg_texture_, getWindowBounds());
 }
