@@ -49,15 +49,38 @@ const std::string GetImage(Species species) {
 
 const Species GetNext(Species species) {
   switch (species) {
-      case Species::kDefault:
-          return Species::kBouncy;
-      case Species::kBouncy:
-          return Species::kFast;
-      case Species::kFast:
-          return Species::kWobbly;
-      default:
-          return Species::kDefault;
+    case Species::kDefault:
+        return Species::kBouncy;
+    case Species::kBouncy:
+        return Species::kFast;
+    case Species::kFast:
+        return Species::kWobbly;
+    default:
+        return Species::kDefault;
   }
 }
 
+const std::shared_ptr<choreograph::Phrase<glm::vec2>>
+GetFlight(Species species) {
+  // Creates a procedure that arcs half a sine wave.
+  auto arc = ch::makeProcedure<ci::vec2>(kRampDuration,
+          [] ( ch::Time t, ch::Time duration ) {
+      return ci::vec2( 0, kArcAmplitude * sin
+      (ch::easeInOutQuad((float) t) * M_PI ));
+  } );
+
+  // Creates a procedure that arcs multiple sine waves.
+  auto wobble = ch::makeProcedure<ci::vec2>(kWobbleDuration,
+          [] ( ch::Time t, ch::Time duration ) {
+      return ci::vec2( 0, kWobbleAmplitude * sin
+      (ch::easeInOutQuad((float) t) * M_PI ));
+  } );
+
+  switch (species) {
+      case Species::kWobbly:
+          return wobble;
+      default:
+          return arc;
+  }
+}
 }  // namespace bird

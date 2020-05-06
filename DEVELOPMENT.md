@@ -74,8 +74,6 @@
         - TO DO: 
             - [x] Finish Bird() class
             - [x] Create different birds
-                - I created different birds, but their flight
-                paths are all the same for now.
             - [x] Add `q` as a quit button
             - [x] Add `n` as a new game button?
   
@@ -109,7 +107,7 @@
         and the heavy use of RandFloat, division, distance, etc.
         It just makes more sense to use floats than to explicitly
         cast every time I use a variable.
-    - Created a Species enum that changes the appearance of the
-    bird. Currently, it only changes the appearance of the bird.
-    However, it might later be possible for me to add functionality
-    that changes the flight pattern of each species of bird.
+    - Created a Species enum that changes the bird's appearance.
+    - Added code for each bird to travel in a different way.
+        - Some of the birds' special flight patterns are triggered
+        by the space bar. This key is saved in config.h.

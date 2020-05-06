@@ -8,6 +8,7 @@
 #include <birdgame/text_print_util.h>
 #include <birdgame/config.h>
 #include <birdgame/bird.h>
+#include <birdgame/bird_type.h>
 
 using namespace birdgame;
 
@@ -110,6 +111,16 @@ void BirdApp::keyDown(ci::app::KeyEvent event) {
     } else if (state_ == GameState::kPlaying &&
     event.getChar() == kSpeciesKey) {
         bird_.ChangeSpecies();
+
+    } else if (state_ == GameState::kLaunched &&
+    event.getChar() == kFlightKey) {
+        if (bird_.GetSpecies() == bird::Species::kBouncy) {
+            bird_.ArcBirdTo(bird_.GetX() + kBounceWidth,
+                    bird_.GetY() + kBounceHeight);
+
+        } else if (bird_.GetSpecies() == bird::Species::kFast) {
+            bird_.SlideBirdTo(bird_.GetDestination()[0], bird_.GetDestination()[1]);
+        }
     }
 }
 

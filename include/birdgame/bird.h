@@ -39,11 +39,13 @@ class Bird {
 
   float GetX();
   float GetY();
+  ci::vec2 GetDestination();
   Species GetSpecies();
 
  private:
   Species species_;
   ci::gl::Texture2dRef bird_texture_;
+  ci::vec2 bird_destination_;
   ch::Output<ci::vec2> bird_pos_;
   ch::Timeline timeline_;
   std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;

@@ -5,6 +5,8 @@
 
 ![](assets/happy-birds-screen-capture.gif)
 
+![](assets/happy-birds-species-screen-capture.gif)
+
 Happy Birds is a single-player action game where the player attempts to
 launch their bird into a portal using their mouse. See [rules](#Rules).
 
@@ -38,12 +40,13 @@ This codebase follows the [Google C++ Style Guide](https://google.github.io/styl
 with Doxygen-style documentation. You can generate your own HTML version of the documentation.
 See [the guide on the Doxygen page](http://www.doxygen.nl/manual/doxygen_usage.html).
 Due to heavy use of Choreograph and RandFloat functions that accept float parameters,
-all coordinates in this project are saved as floats, and functions that deal with
-coordinates also return floats.
+coordinates in this project are saved as floats, and functions that deal with them
+also return floats.
 
 ## Rules
 In each level, your bird will begin in the same position, to
 the left of a portal in a randomized location. Using a mouse click,
+and the space bar if you have a bird that is affect by that key,
 your goal is to get your bird close enough to the portal that it
 is sucked inside and passes the level.
 
@@ -59,9 +62,18 @@ your score displays as the number of levels you passed.
 | `q`       | Quits the game                                              |
 | `n`       | Restarts game after loss                                    |
 | `s`       | Changes the bird's species                                  |
+| `space`   | Updates the bird's flight depending on species              |
 
 Press any button to exit the starting screen. Your first mouse click in each
 level approximately determines the trajectory of your bird.
+
+## Birds
+| Color     | Flight path                                                 |
+|---------- |-------------------------------------------------------------|
+| Red       | Flies in an arc towards the mouse click                     |
+| White     | Flies in arc until prompted; bounces when prompted          |
+| Yellow    | Flies in arc until prompted; flies straight when prompted   |
+| Pink      | Flies in a wobbly line towards the mouse click              |
 
 ##
 

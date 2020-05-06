@@ -28,6 +28,7 @@ const char kPauseKey = 'p';
 const char kQuitKey = 'q';
 const char kNewGameKey = 'n';
 const char kSpeciesKey = 's';
+const char kFlightKey = ' ';
 
 // --- Heights and widths of different birds ---
 const size_t kDefaultBirdWidth = 200;
@@ -44,9 +45,13 @@ const size_t kWobblyBirdHeight = 185;
 // coordinates and functions dealing with them are saved as floats.
 const float kBeginningBirdX = 400;
 const float kTimelineStepSize = 0.01;
-const int kCurveRampAmplitude = -500;
+const int kArcAmplitude = -500;
+const int kWobbleAmplitude = 50;
 const float kRampDuration = 0.25;
+const float kWobbleDuration = 0.05;
 const float kPauseDuration = 0.05;
+const int kBounceHeight = 100;
+const int kBounceWidth = 300;
 
 // --- Sizes of important game elements ---
 const size_t kGroundHeight = 1250;
