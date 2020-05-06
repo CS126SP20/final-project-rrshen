@@ -74,6 +74,7 @@
         - TO DO: 
             - [x] Finish Bird() class
             - [ ] Create different birds
+                - *Or remove the relevant functions in bird.h*
             - [x] Add `q` as a quit button
             - [x] Add `n` as a new game button?
   
@@ -81,14 +82,19 @@
     - Added a delay before the ending screen
     - Made line comments explaining ending_x_ and ending_y_
     - Made the user's score display during and after the game
-        - Remember to adjust the font size, textbox size, 
-        and the score location if adjustments are necessary
+        - *Adjust the font size, textbox size, **and** the score
+        location if and when adjustments are necessary*
     - Fully implemented the Bird class and integrated it into
     the happy_birds.cc code
     - Wrote and ran simple tests for GetEuclideanDistance()
         - TO DO:
-            - [ ] Document classes and methods
-            - [ ] Check spacing
+            - [x] Document classes and methods
+            - [x] Make sure line comments on code are specific
+            - [x] Check spacing
+            - [ ] Give better names to kRandomXRange and kRandomYRange
+                - Emailed Estelle.
+                - Also check if we really want so many float params.
+            - [ ] Delete commented code
         - NOTE: While I wrote in my proposal that I was going
         to include a high scores board at the end of the game,
         I decided not to include this, because I don't think

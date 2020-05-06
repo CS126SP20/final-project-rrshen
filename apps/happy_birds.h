@@ -10,6 +10,7 @@
 
 namespace birdapp {
 
+// An enumeration of the game's possible states.
 enum class GameState {
   kStartScreen,
   kPlaying,
@@ -18,6 +19,8 @@ enum class GameState {
   kEndScreen,
 };
 
+// This class interprets input from the keyboard and mouse and
+// modifies the game's display elements accordingly.
 class BirdApp : public cinder::app::App {
  public:
   BirdApp();
@@ -28,8 +31,11 @@ class BirdApp : public cinder::app::App {
   void mouseDown(cinder::app::MouseEvent event) override;
 
  private:
+  // Draws the game background, which is dependent on the game's state.
   void DrawBackground();
+  // Draws a portal at the location set by ResetLevel().
   void DrawPortal();
+  // Restarts a level without affecting the player's previous achievements.
   void ResetLevel();
 
   ci::gl::Texture2dRef bg_texture_;
@@ -45,9 +51,8 @@ class BirdApp : public cinder::app::App {
   float ending_y_;
 
   size_t num_points_;
-  bool is_game_over_;
   GameState state_;
-  bool has_clicked_in_level_;
+  bool is_game_over_;
   bool is_paused_;
   bird::Bird bird_;
 };

@@ -34,7 +34,7 @@ launch their bird into a portal using their mouse. See [rules](#Rules).
 5. Build and run the project from Visual Studio.
 
 ## Documentation
-This codebase (tries to) follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
+This codebase follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 with Doxygen-style documentation. You can generate your own HTML version of the documentation.
 See [the guide on the Doxygen page](http://www.doxygen.nl/manual/doxygen_usage.html).
 

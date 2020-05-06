@@ -15,6 +15,7 @@ Bird::Bird() : type_{BirdType::kDefault} {}
 void Bird::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create
           (loadImage(ci::app::loadAsset(kDefaultBird)));
+
   cinder::gl::draw(bird_texture_, {
       GetX(), GetY(), GetX() +
       kDefaultBirdWidth, GetY() + kDefaultBirdHeight});
@@ -30,7 +31,7 @@ void Bird::ResetBird() {
   bird_pos_ = {kBeginningBirdX, kGroundHeight - kDefaultBirdHeight};
 }
 
-void Bird::CurveRampTo(float x, float y) {
+void Bird::ArcBirdTo(float x, float y) {
   timeline_.clear();
 
   // Creates a procedure that bounces half a sine wave.
@@ -41,7 +42,7 @@ void Bird::CurveRampTo(float x, float y) {
   } );
 
   // Creates a ramp phase that moves from  the bird's
-  // current location to the mouse click location.
+  // current location to the passed x and y coordinates.
   auto slide = ch::makeRamp(ci::vec2(0,0),
           ci::vec2(x - GetX(),y
           - GetY()), kRampDuration, ch::EaseInOutCubic());
@@ -53,21 +54,24 @@ void Bird::CurveRampTo(float x, float y) {
   timeline_.apply(&bird_pos_, ramp_);
 }
 
-void Bird::SlideRampTo(float x, float y) {
+void Bird::SlideBirdTo(float x, float y) {
   timeline_.clear();
+
   ramp_ = ch::makeRamp(ci::vec2(GetX(), GetY()),
           ci::vec2(x,y), kRampDuration, ch::EaseInOutCubic());
   timeline_.apply(&bird_pos_, ramp_);
 }
 
-void Bird::PauseRamp(float duration) {
+void Bird::StopBird() {
   timeline_.clear();
+
+  // Creates a ramp from its current position to its current position.
   ramp_ = ch::makeRamp(ci::vec2(GetX(), GetY()),
-          ci::vec2(GetX(), GetY()), duration, ch::EaseInOutCubic());
+          ci::vec2(GetX(), GetY()), kPauseDuration, ch::EaseInOutCubic());
   timeline_.apply(&bird_pos_, ramp_);
 }
 
-bool Bird::IsRampOver() {
+bool Bird::IsBirdDoneMoving() {
   return (timeline_.timeUntilFinish() == 0);
 }
 
