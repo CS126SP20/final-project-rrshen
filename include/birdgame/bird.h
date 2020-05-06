@@ -6,28 +6,25 @@
 #define FINALPROJECT_BIRD_H
 
 #include <choreograph/Choreograph.h>
+#include <birdgame/bird_type.h>
 
 namespace bird {
-
-// An enumeration of the types of possible birds in this game.
-enum class BirdType {
-  kDefault,
-  kBouncy,
-  kFast,
-  kWobbly,
-};
 
 // This class models a Bird with an adjustable position on the screen.
 class Bird {
  public:
   // Constructs a bird with type kDefault.
   Bird();
+  // Sets the bird's position to be the starting position.
+  void SetupBird();
   // Draws a bird on the screen at a predetermined location.
   void DrawBird();
   // Updates the position of the bird.
   void UpdateBird();
   // Resets the bird's position, movement, and type to the default.
   void ResetBird();
+  // Changes the bird's species.
+  void ChangeSpecies();
 
   // Sets the bird on a curved path to the passed x and y coordinates.
   void ArcBirdTo(float x, float y);
@@ -42,13 +39,10 @@ class Bird {
 
   float GetX();
   float GetY();
+  Species GetSpecies();
 
  private:
-  //float GetHeight();
-  //const float GetWidth();
-  //const std::string GetImage();
-
-  BirdType type_;
+  Species species_;
   ci::gl::Texture2dRef bird_texture_;
   ch::Output<ci::vec2> bird_pos_;
   ch::Timeline timeline_;

@@ -37,6 +37,9 @@ launch their bird into a portal using their mouse. See [rules](#Rules).
 This codebase follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 with Doxygen-style documentation. You can generate your own HTML version of the documentation.
 See [the guide on the Doxygen page](http://www.doxygen.nl/manual/doxygen_usage.html).
+Due to heavy use of Choreograph and RandFloat functions that accept float parameters,
+all coordinates in this project are saved as floats, and functions that deal with
+coordinates also return floats.
 
 ## Rules
 In each level, your bird will begin in the same position, to
@@ -55,6 +58,7 @@ your score displays as the number of levels you passed.
 | `p`       | Pauses the game                                             |
 | `q`       | Quits the game                                              |
 | `n`       | Restarts game after loss                                    |
+| `s`       | Changes the bird's species                                  |
 
 Press any button to exit the starting screen. Your first mouse click in each
 level approximately determines the trajectory of your bird.

@@ -100,11 +100,16 @@ void BirdApp::keyDown(ci::app::KeyEvent event) {
         is_paused_ = !is_paused_;
 
     } else if (state_ == GameState::kEndScreen &&
-               event.getChar() == kNewGameKey) {
+    event.getChar() == kNewGameKey) {
         num_points_ = 0;
         state_ = GameState::kStartScreen;
         is_game_over_ = false;
+        bird_.ResetBird();
         ResetLevel();
+
+    } else if (state_ == GameState::kPlaying &&
+    event.getChar() == kSpeciesKey) {
+        bird_.ChangeSpecies();
     }
 }
 
@@ -112,12 +117,13 @@ void BirdApp::mouseDown(cinder::app::MouseEvent event) {
     if (!is_paused_ && state_ == GameState::kPlaying) {
         state_ = GameState::kLaunched;
 
-        float random_add_to_x = ci::Rand::randFloat
-                (-(float) kRandomXRange, kRandomXRange);
+        // -200, 200, and 300 are meaningless. The float added to x is of either sign
+        // to model wind while the float added to y is positive to simulate gravity.
+        float random_add_to_x = ci::Rand::randFloat(-200, 200);
         // To ensure the random values aren't dependent on each other
         ci::Rand::randomize();
         bird_.ArcBirdTo((float) event.getX() + random_add_to_x,
-                        (float) event.getY() + ci::Rand::randFloat(0, kRandomYRange));
+                (float) event.getY() + ci::Rand::randFloat(0, 300));
     }
 }
 
@@ -152,10 +158,11 @@ void BirdApp::ResetLevel() {
   portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth,
                                   kSkyWidth - kPortalWidth);
   portal_y_ = ci::Rand::randFloat(0, kGroundHeight - kPortalHeight);
-  ending_x_ = portal_x_ - (kDefaultBirdWidth / 2);
-  ending_y_ = portal_y_ + (kPortalHeight / 2) - (kDefaultBirdHeight / 2);
+  ending_x_ = portal_x_ - (GetWidth(bird_.GetSpecies()) / 2);
+  ending_y_ = portal_y_ + (kPortalHeight / 2)
+          - (GetHeight(bird_.GetSpecies()) / 2);
 
-  bird_.ResetBird();
+  bird_.SetupBird();
   state_ = GameState::kPlaying;
 }
 

@@ -5,20 +5,26 @@
 #include <choreograph/Choreograph.h>
 #include <birdgame/config.h>
 #include <birdgame/bird.h>
+#include <birdgame/bird_type.h>
 
 namespace bird {
 
 using namespace birdgame;
 
-Bird::Bird() : type_{BirdType::kDefault} {}
+Bird::Bird() : species_{Species::kDefault} {}
+
+void Bird::SetupBird() {
+  timeline_.clear();
+  bird_pos_ = {kBeginningBirdX, kGroundHeight - GetHeight(species_)};
+}
 
 void Bird::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create
-          (loadImage(ci::app::loadAsset(kDefaultBird)));
+          (loadImage(ci::app::loadAsset(GetImage(species_))));
 
   cinder::gl::draw(bird_texture_, {
       GetX(), GetY(), GetX() +
-      kDefaultBirdWidth, GetY() + kDefaultBirdHeight});
+      GetWidth(species_), GetY() + GetHeight(species_)});
 }
 
 void Bird::UpdateBird() {
@@ -26,9 +32,16 @@ void Bird::UpdateBird() {
 }
 
 void Bird::ResetBird() {
-  type_ = BirdType::kDefault;
+  species_ = Species::kDefault;
   timeline_.clear();
-  bird_pos_ = {kBeginningBirdX, kGroundHeight - kDefaultBirdHeight};
+  bird_pos_ = {kBeginningBirdX, kGroundHeight - GetHeight(species_)};
+}
+
+void Bird::ChangeSpecies() {
+  Species former_species = species_;
+  species_ = GetNext(former_species);
+  bird_pos_ = {GetX() + GetWidth(former_species) - GetWidth(species_),
+               GetY() + GetHeight(former_species) - GetHeight(species_)};
 }
 
 void Bird::ArcBirdTo(float x, float y) {
@@ -82,42 +95,9 @@ float Bird::GetX() {
 float Bird::GetY() {
   return bird_pos_.value()[1];
 }
-/*
-float GetHeight() {
-  switch (BirdType type_) {
-    case BirdType::kDefault:
-        return kDefaultBirdHeight;
-    case BirdType::kBouncy:
-        return kBouncyBirdHeight;
-    case BirdType::kFast:
-        return kFastBirdHeight;
-    case BirdType::kWobbly:
-        return kWobblyBirdHeight;
-  }
+
+Species Bird::GetSpecies() {
+  return species_;
 }
-const float GetWidth() {
-  switch (this.type_) {
-    case BirdType::kDefault:
-        return kDefaultBirdWidth;
-    case BirdType::kBouncy:
-        return kBouncyBirdWidth;
-    case BirdType::kFast:
-        return kFastBirdWidth;
-    case BirdType::kWobbly:
-        return kWobblyBirdWidth;
-  }
-}
-const std::string GetImage() {
-  switch (type_) {
-    case BirdType::kDefault:
-        return kDefaultBird;
-    case BirdType::kBouncy:
-        return kBouncyBird;
-    case BirdType::kFast:
-        return kFastBird;
-    case BirdType::kWobbly:
-        return kWobblyBird;
-  }
-}*/
 
 }  // namespace bird

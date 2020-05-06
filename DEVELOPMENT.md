@@ -73,8 +73,9 @@
     - Wrote a README file with a GIF
         - TO DO: 
             - [x] Finish Bird() class
-            - [ ] Create different birds
-                - *Or remove the relevant functions in bird.h*
+            - [x] Create different birds
+                - I created different birds, but their flight
+                paths are all the same for now.
             - [x] Add `q` as a quit button
             - [x] Add `n` as a new game button?
   
@@ -91,13 +92,24 @@
             - [x] Document classes and methods
             - [x] Make sure line comments on code are specific
             - [x] Check spacing
-            - [ ] Give better names to kRandomXRange and kRandomYRange
-                - Emailed Estelle.
-                - Also check if we really want so many float params.
-            - [ ] Delete commented code
+            - [ ] BirdType class?
+                - I created files called bird_type, but there's
+                no real BirdType class. Instead, it just contains
+                an enum and several standalone functions.
         - NOTE: While I wrote in my proposal that I was going
         to include a high scores board at the end of the game,
         I decided not to include this, because I don't think
         that this is the kind of game that really necessitates
         keeping track of scores, and because I like the ending
         screen as is.
+
+ - **5/6/20** *Expanded upon the current project.*
+    - Added line comments explaining the heavy use of floats.
+        - Due to Choreograph functions that only accept floats
+        and the heavy use of RandFloat, division, distance, etc.
+        It just makes more sense to use floats than to explicitly
+        cast every time I use a variable.
+    - Created a Species enum that changes the appearance of the
+    bird. Currently, it only changes the appearance of the bird.
+    However, it might later be possible for me to add functionality
+    that changes the flight pattern of each species of bird.

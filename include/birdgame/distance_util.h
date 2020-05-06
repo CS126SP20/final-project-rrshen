@@ -16,7 +16,7 @@ namespace birdgame {
 // @param y2 the y-coordinate of the second point
 
 // @return the calculated Euclidean distance between the points
-size_t GetEuclideanDistance(float x1, float y1, float x2, float y2);
+float GetEuclideanDistance(float x1, float y1, float x2, float y2);
 
 }  // namespace birdgame
 
