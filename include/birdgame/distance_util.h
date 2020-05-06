@@ -9,6 +9,6 @@ namespace birdgame {
 
 float GetEuclideanDistance(float x1, float y1, float x2, float y2);
 
-} //namespace birdgame
+}  // namespace birdgame
 
 #endif //FINALPROJECT_DISTANCE_UTIL_H

@@ -10,6 +10,10 @@ namespace birdgame {
 using cinder::Color;
 
 const std::string kDefaultBird  = "bird.png";
+const std::string kBouncyBird = "bouncy-bird.png";
+const std::string kFastBird = "fast-bird.png";
+const std::string kWobblyBird = "wobbly-bird.png";
+
 const std::string kBackgroundMusic = "game-bgm.mp3";
 const std::string kStartBackground = "start-screen.jpg";
 const std::string kDefaultBackground = "game-background.jpg";
@@ -23,8 +27,15 @@ const char kQuitKey = 'q';
 const char kNewGameKey = 'n';
 
 // These made it look right in Photoshop.
-const float kBirdWidth = 200;
-const float kBirdHeight = 190;
+const float kDefaultBirdWidth = 200;
+const float kDefaultBirdHeight = 190;
+const float kBouncyBirdWidth = 300;
+const float kBouncyBirdHeight = 350;
+const float kFastBirdWidth = 230;
+const float kFastBirdHeight = 220;
+const float kWobblyBirdWidth = 190;
+const float kWobblyBirdHeight = 185;
+
 const float kBeginningBirdX = 400;
 const float kTimelineStepSize = 0.01;
 const float kCurveRampAmplitude = -500;
@@ -51,6 +62,6 @@ const float kDefaultVolume = 0.5;
 const float kRampDuration = 0.25;
 const float kPauseDuration = 0.05;
 
-} //namespace birdgame
+}  // namespace birdgame
 
 #endif //FINALPROJECT_CONFIG_H

@@ -139,11 +139,11 @@ void BirdApp::DrawPortal() {
 
 void BirdApp::ResetLevel() {
   ci::Rand::randomize();
-  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kBirdWidth,
+  portal_x_ = ci::Rand::randFloat(kBeginningBirdX + kDefaultBirdWidth,
                                   kSkyWidth - kPortalWidth);
   portal_y_ = ci::Rand::randFloat(0, kGroundHeight - kPortalHeight);
-  ending_x_ = portal_x_ - (kBirdWidth / 2);
-  ending_y_ = portal_y_ + (kPortalHeight / 2) - (kBirdHeight / 2);
+  ending_x_ = portal_x_ - (kDefaultBirdWidth / 2);
+  ending_y_ = portal_y_ + (kPortalHeight / 2) - (kDefaultBirdHeight / 2);
 
   bird_.ResetBird();
   state_ = GameState::kPlaying;

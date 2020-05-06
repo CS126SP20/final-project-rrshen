@@ -9,6 +9,13 @@
 
 namespace bird {
 
+enum class BirdType {
+  kDefault,
+  kBouncy,
+  kFast,
+  kWobbly,
+};
+
 class Bird {
  public:
   Bird();
@@ -25,12 +32,17 @@ class Bird {
   float GetY();
 
  private:
+  //float GetHeight();
+  //const float GetWidth();
+  //const std::string GetImage();
+
+  BirdType type_;
   ci::gl::Texture2dRef bird_texture_;
   ch::Output<ci::vec2> bird_pos_;
   ch::Timeline timeline_;
   std::shared_ptr<choreograph::Phrase<glm::vec2>> ramp_;
 };
 
-}
+}  // namespace bird
 
 #endif //FINALPROJECT_BIRD_H

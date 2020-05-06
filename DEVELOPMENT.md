@@ -85,7 +85,13 @@
         and the score location if adjustments are necessary
     - Fully implemented the Bird class and integrated it into
     the happy_birds.cc code
+    - Wrote and ran simple tests for GetEuclideanDistance()
         - TO DO:
             - [ ] Document classes and methods
-            - [ ] Write distance tests
             - [ ] Check spacing
+        - NOTE: While I wrote in my proposal that I was going
+        to include a high scores board at the end of the game,
+        I decided not to include this, because I don't think
+        that this is the kind of game that really necessitates
+        keeping track of scores, and because I like the ending
+        screen as is.

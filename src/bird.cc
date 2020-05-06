@@ -10,14 +10,14 @@ namespace bird {
 
 using namespace birdgame;
 
-Bird::Bird() : bird_pos_{}, timeline_{}, ramp_{} {}
+Bird::Bird() : type_{BirdType::kDefault} {}
 
 void Bird::DrawBird() {
   bird_texture_ = ci::gl::Texture2d::create
           (loadImage(ci::app::loadAsset(kDefaultBird)));
   cinder::gl::draw(bird_texture_, {
       GetX(), GetY(), GetX() +
-      kBirdWidth, GetY() + kBirdHeight});
+      kDefaultBirdWidth, GetY() + kDefaultBirdHeight});
 }
 
 void Bird::UpdateBird() {
@@ -25,8 +25,9 @@ void Bird::UpdateBird() {
 }
 
 void Bird::ResetBird() {
+  type_ = BirdType::kDefault;
   timeline_.clear();
-  bird_pos_ = {kBeginningBirdX, kGroundHeight - kBirdHeight};
+  bird_pos_ = {kBeginningBirdX, kGroundHeight - kDefaultBirdHeight};
 }
 
 void Bird::CurveRampTo(float x, float y) {
@@ -77,5 +78,42 @@ float Bird::GetX() {
 float Bird::GetY() {
   return bird_pos_.value()[1];
 }
+/*
+float GetHeight() {
+  switch (BirdType type_) {
+    case BirdType::kDefault:
+        return kDefaultBirdHeight;
+    case BirdType::kBouncy:
+        return kBouncyBirdHeight;
+    case BirdType::kFast:
+        return kFastBirdHeight;
+    case BirdType::kWobbly:
+        return kWobblyBirdHeight;
+  }
+}
+const float GetWidth() {
+  switch (this.type_) {
+    case BirdType::kDefault:
+        return kDefaultBirdWidth;
+    case BirdType::kBouncy:
+        return kBouncyBirdWidth;
+    case BirdType::kFast:
+        return kFastBirdWidth;
+    case BirdType::kWobbly:
+        return kWobblyBirdWidth;
+  }
+}
+const std::string GetImage() {
+  switch (type_) {
+    case BirdType::kDefault:
+        return kDefaultBird;
+    case BirdType::kBouncy:
+        return kBouncyBird;
+    case BirdType::kFast:
+        return kFastBird;
+    case BirdType::kWobbly:
+        return kWobblyBird;
+  }
+}*/
 
-} //namespace bird
+}  // namespace bird

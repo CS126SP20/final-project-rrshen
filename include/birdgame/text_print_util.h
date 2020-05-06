@@ -10,6 +10,6 @@ namespace birdgame {
 void PrintText(const std::string& text, const ci::Color& color,
         const ci::ivec2& size, const ci::vec2& loc, const size_t& font_size);
 
-} //namespace birdgame
+}  // namespace birdgame
 
 #endif //FINALPROJECT_TEXT_PRINT_UTIL_H
