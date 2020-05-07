@@ -50,6 +50,9 @@ void Bird::ArcBirdTo(float x, float y) {
   timeline_.clear();
   bird_destination_ = {x, y};
 
+  // Code derived from:
+  // https://github.com/sansumbrella/Choreograph/blob/master/samples/src/samples/SlideAndBounce.cpp
+
   // Creates a ramp phase that moves from  the bird's
   // current location to the passed x and y coordinates.
   auto slide = ch::makeRamp(ci::vec2(0,0),

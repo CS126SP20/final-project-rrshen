@@ -13,55 +13,58 @@ using namespace birdgame;
 const size_t GetHeight(Species species) {
   switch (species) {
     case Species::kBouncy:
-        return kBouncyBirdHeight;
+      return kBouncyBirdHeight;
     case Species::kFast:
-        return kFastBirdHeight;
+      return kFastBirdHeight;
     case Species::kWobbly:
-        return kWobblyBirdHeight;
+      return kWobblyBirdHeight;
     default:
-        return kDefaultBirdHeight;
+      return kDefaultBirdHeight;
   }
 }
 const size_t GetWidth(Species species) {
   switch (species) {
     case Species::kBouncy:
-        return kBouncyBirdWidth;
+      return kBouncyBirdWidth;
     case Species::kFast:
-        return kFastBirdWidth;
+      return kFastBirdWidth;
     case Species::kWobbly:
-        return kWobblyBirdWidth;
+      return kWobblyBirdWidth;
     default:
-        return kDefaultBirdWidth;
+      return kDefaultBirdWidth;
   }
 }
 const std::string GetImage(Species species) {
   switch (species) {
     case Species::kBouncy:
-        return kBouncyBird;
+      return kBouncyBird;
     case Species::kFast:
-        return kFastBird;
+      return kFastBird;
     case Species::kWobbly:
-        return kWobblyBird;
+      return kWobblyBird;
     default:
-        return kDefaultBird;
+      return kDefaultBird;
   }
 }
 
 const Species GetNext(Species species) {
   switch (species) {
     case Species::kDefault:
-        return Species::kBouncy;
+      return Species::kBouncy;
     case Species::kBouncy:
-        return Species::kFast;
+      return Species::kFast;
     case Species::kFast:
-        return Species::kWobbly;
+      return Species::kWobbly;
     default:
-        return Species::kDefault;
+      return Species::kDefault;
   }
 }
 
 const std::shared_ptr<choreograph::Phrase<glm::vec2>>
 GetFlight(Species species) {
+  // Code derived from:
+  // https://github.com/sansumbrella/Choreograph/blob/master/samples/src/samples/SlideAndBounce.cpp
+
   // Creates a procedure that arcs half a sine wave.
   auto arc = ch::makeProcedure<ci::vec2>(kRampDuration,
           [] ( ch::Time t, ch::Time duration ) {
@@ -77,10 +80,11 @@ GetFlight(Species species) {
   } );
 
   switch (species) {
-      case Species::kWobbly:
-          return wobble;
-      default:
-          return arc;
+    case Species::kWobbly:
+      return wobble;
+    default:
+      return arc;
   }
 }
+
 }  // namespace bird

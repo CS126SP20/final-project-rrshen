@@ -91,9 +91,8 @@
             - [x] Make sure line comments on code are specific
             - [x] Check spacing
             - [ ] BirdType class?
-                - I created files called bird_type, but there's
-                no real BirdType class. Instead, it just contains
-                an enum and several standalone functions.
+                - I created bird_type, but there's no BirdType class.
+                The file contains an enum and standalone functions.
         - NOTE: While I wrote in my proposal that I was going
         to include a high scores board at the end of the game,
         I decided not to include this, because I don't think
@@ -107,7 +106,9 @@
         and the heavy use of RandFloat, division, distance, etc.
         It just makes more sense to use floats than to explicitly
         cast every time I use a variable.
-    - Created a Species enum that changes the bird's appearance.
+    - Created a Species enum and wrote code that changes the bird's
+    appearance when prompted by a switch bird key.
     - Added code for each bird to travel in a different way.
         - Some of the birds' special flight patterns are triggered
         by the space bar. This key is saved in config.h.
+    - Added final citations and tweaked formatting.
